@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Encadrant — Suivi pédagogique | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="tutor-dashboard.html" class="sidebar-brand">
+                <div class="logo-mark" style="background:linear-gradient(135deg,#7C3AED,#8B5CF6);">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">ESPACE ENCADRANT</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="tutor-dashboard.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="tutor-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>Étudiants encadrés</span>
+                    <span class="nav-badge">8</span>
+                </a>
+                <a href="tutor-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span>Suivi des stages</span>
+                </a>
+                <a href="tutor-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Réunions</span>
+                </a>
+                <a href="tutor-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Évaluations</span>
+                    <span class="nav-badge">5</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar" style="background:#EDE9FE;color:#5B21B6;">SM</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Sophie Moreau</span>
+                        <span class="user-role" id="sidebar-user-role">Enseignante-chercheuse</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
+                    <span class="shortcut">⌘K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-sm btn-outline" onclick="triggerExport('suivi-pedagogique')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter
+                    </button>
+                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="notification-dot" id="unread-dot"></span>
+                    </button>
+                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content: Tutor Dashboard -->
+            <main class="view-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Suivi pédagogique</h1>
+                        <p class="page-subtitle">Une analyse multi-axes de vos étudiants en stage</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('modal-schedule-meeting')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                        + Planifier une réunion
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Stagiaires à suivre</div>
+                        <div class="kpi-value">8</div>
+                        <div class="kpi-sub">4 promotions différentes</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Réunions ce mois</div>
+                        <div class="kpi-value">12</div>
+                        <div class="kpi-sub">8 déjà faites</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Évaluations à valider <span class="kpi-pill warning">3 urgentes</span></div>
+                        <div class="kpi-value">5</div>
+                        <div class="kpi-sub">à traiter sous 7 jours</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Évaluations à venir</div>
+                        <div class="kpi-value">3</div>
+                        <div class="kpi-sub">jalon mi-parcours</div>
+                    </div>
+                </div>
+
+                <div class="grid-8-4">
+                    <!-- Left: Stages Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Stages à suivre</span>
+                            <div style="display:flex;gap:10px;">
+                                <button class="btn btn-sm btn-outline" onclick="showToast('Affichage de tous les stagiaires', 'info')">Tous</button>
+                                <button class="btn btn-sm btn-outline" onclick="showToast('Filtre : Stagiaires en alerte', 'warning')">Urgents</button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <div class="data-table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Étudiant</th>
+                                            <th>Entreprise</th>
+                                            <th>Progression</th>
+                                            <th>Prochain Jalon</th>
+                                            <th>Statut</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight:700;">Clara Martin</div>
+                                                <div style="font-size:11.5px;color:#64748B;">Data analyst</div>
+                                            </td>
+                                            <td>NovoOps</td>
+                                            <td>
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <div class="progress-bar-container" style="width:75px;">
+                                                        <div class="progress-bar-fill" style="width:52%;"></div>
+                                                    </div>
+                                                    <span style="font-size:11.5px;font-weight:600;">52%</span>
+                                                </div>
+                                            </td>
+                                            <td>Rapport - 22 oct.</td>
+                                            <td><span class="badge badge-yellow">À valider</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Clara Martin', 'NovoOps')">Suivre</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight:700;">Tariq Sengé</div>
+                                                <div style="font-size:11.5px;color:#64748B;">IA - Énergie</div>
+                                            </td>
+                                            <td>GreenPulse</td>
+                                            <td>
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <div class="progress-bar-container" style="width:75px;">
+                                                        <div class="progress-bar-fill" style="width:38%;"></div>
+                                                    </div>
+                                                    <span style="font-size:11.5px;font-weight:600;">38%</span>
+                                                </div>
+                                            </td>
+                                            <td>Évaluation - 25 oct.</td>
+                                            <td><span class="badge badge-blue">En cours</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Tariq Sengé', 'GreenPulse')">Suivre</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight:700;">Léa Dubois</div>
+                                                <div style="font-size:11.5px;color:#64748B;">UX - Services pub</div>
+                                            </td>
+                                            <td>UrbanLab</td>
+                                            <td>
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <div class="progress-bar-container" style="width:75px;">
+                                                        <div class="progress-bar-fill" style="width:81%;"></div>
+                                                    </div>
+                                                    <span style="font-size:11.5px;font-weight:600;">81%</span>
+                                                </div>
+                                            </td>
+                                            <td>Réunion - 18 oct.</td>
+                                            <td><span class="badge badge-green">Conforme</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Léa Dubois', 'UrbanLab')">Suivre</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div style="font-weight:700;">Hugo Petit</div>
+                                                <div style="font-size:11.5px;color:#64748B;">Audit cybersécurité</div>
+                                            </td>
+                                            <td>Lumen Conseil</td>
+                                            <td>
+                                                <div style="display:flex;align-items:center;gap:8px;">
+                                                    <div class="progress-bar-container" style="width:75px;">
+                                                        <div class="progress-bar-fill" style="width:64%;"></div>
+                                                    </div>
+                                                    <span style="font-size:11.5px;font-weight:600;">64%</span>
+                                                </div>
+                                            </td>
+                                            <td>Journal - 29 oct.</td>
+                                            <td><span class="badge badge-green">Conforme</span></td>
+                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Hugo Petit', 'Lumen Conseil')">Suivre</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Aujourd'hui & Progression du groupe -->
+                    <div style="display:flex;flex-direction:column;gap:24px;">
+                        <!-- Agenda Aujourd'hui -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Aujourd'hui</span>
+                                <span class="badge badge-blue">3 réunions</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
+                                    <div style="display:flex;gap:12px;font-size:13px;">
+                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">10h00</span>
+                                        <div>
+                                            <div style="font-weight:600;color:#0F172A;">Point Clara Martin</div>
+                                            <div style="font-size:11.5px;color:#64748B;">NovoOps • Visioconférence</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;gap:12px;font-size:13px;">
+                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">14h00</span>
+                                        <div>
+                                            <div style="font-weight:600;color:#0F172A;">Relecture intermédiaire</div>
+                                            <div style="font-size:11.5px;color:#64748B;">GreenPulse • En ligne</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;gap:12px;font-size:13px;">
+                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">16h30</span>
+                                        <div>
+                                            <div style="font-weight:600;color:#0F172A;">Entretien Hugo Petit</div>
+                                            <div style="font-size:11.5px;color:#64748B;">Lumen Conseil • Bureau B204</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline btn-sm" style="width:100%;" onclick="openModal('modal-schedule-meeting')">+ Planifier une réunion</button>
+                            </div>
+                        </div>
+
+                        <!-- Progression du groupe -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Progression du groupe</span>
+                                <span class="badge badge-green">71% global</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:10px;">
+                                    <span>Démarrage (1)</span>
+                                    <span>Mi-parcours (5)</span>
+                                    <span>Finalisation (2)</span>
+                                </div>
+                                <div style="display:flex;height:8px;border-radius:999px;overflow:hidden;gap:3px;margin-bottom:16px;">
+                                    <div style="flex:1;background:#93C5FD;" title="Démarrage: 1"></div>
+                                    <div style="flex:5;background:#2563EB;" title="Mi-parcours: 5"></div>
+                                    <div style="flex:2;background:#10B981;" title="Finalisation: 2"></div>
+                                </div>
+                                <div style="font-size:12px;color:#64748B;line-height:1.5;">
+                                    • Aucun étudiant en alerte critique cette semaine.<br>
+                                    • Prochaine vague de soutenances : début juillet.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Modal Schedule Meeting -->
+    <div class="modal-overlay" id="modal-schedule-meeting">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Planifier un point de suivi pédagogique</h3>
+                <button class="modal-close" onclick="closeModal('modal-schedule-meeting')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="handleScheduleMeetingSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label">Étudiant concerné *</label>
+                        <select class="form-control" required id="schedule-student-select">
+                            <option>Clara Martin (NovoOps)</option>
+                            <option>Tariq Sengé (GreenPulse)</option>
+                            <option>Léa Dubois (UrbanLab)</option>
+                            <option>Hugo Petit (Lumen Conseil)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Objet de la réunion *</label>
+                        <input type="text" class="form-control" value="Point de cadrage & relecture mi-parcours" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label">Date *</label>
+                            <input type="date" class="form-control" value="2025-10-25" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Heure *</label>
+                            <input type="time" class="form-control" value="14:30" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Format</label>
+                        <select class="form-control">
+                            <option>Visioconférence StageFlow Meet</option>
+                            <option>Présentiel — Bureau Enseignant</option>
+                            <option>Visite en entreprise</option>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer" style="padding:18px 0 0;background:none;border-top:none;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-schedule-meeting')">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Envoyer l'invitation</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth();
+        });
+
+        function openStudentFollowModal(name, company) {
+            showToast(`Dossier de suivi de ${name} chez ${company} ouvert`, 'info');
+        }
+
+        function handleScheduleMeetingSubmit(e) {
+            e.preventDefault();
+            closeModal('modal-schedule-meeting');
+            showToast('Invitation de réunion envoyée à l\'étudiant et au tuteur !', 'success');
+        }
+    </script>
+</body>
+</html>

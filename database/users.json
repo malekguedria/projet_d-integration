@@ -1,0 +1,64 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Clara Martin",
+      "email": "clara.martin@univ-lyon.fr",
+      "password": "clara123",
+      "role": "student",
+      "roleLabel": "Étudiante Master 2 Informatique",
+      "avatar": "CM",
+      "redirect": "student-offers.html"
+    },
+    {
+      "id": 2,
+      "name": "Antoine Leroy",
+      "email": "antoine.leroy@novoops.fr",
+      "password": "novoops123",
+      "role": "company",
+      "roleLabel": "Directeur — NovoOps",
+      "avatar": "AL",
+      "redirect": "company-offers.html"
+    },
+    {
+      "id": 3,
+      "name": "Sophie Moreau",
+      "email": "sophie.moreau@univ-lyon.fr",
+      "password": "sophie123",
+      "role": "tutor",
+      "roleLabel": "Enseignante-chercheuse",
+      "avatar": "SM",
+      "redirect": "tutor-dashboard.html"
+    },
+    {
+      "id": 4,
+      "name": "Claire Bernard",
+      "email": "claire.bernard@univ-lyon.fr",
+      "password": "secretariat123",
+      "role": "secretariat",
+      "roleLabel": "Gestionnaire scolarité",
+      "avatar": "CB",
+      "redirect": "secretariat-dossiers.html"
+    },
+    {
+      "id": 5,
+      "name": "Pr Marc Boissieu",
+      "email": "marc.boissieu@univ-lyon.fr",
+      "password": "boissieu123",
+      "role": "department",
+      "roleLabel": "Chef de Département Informatique",
+      "avatar": "MB",
+      "redirect": "department-supervision.html"
+    },
+    {
+      "id": 6,
+      "name": "Isabelle Laurent",
+      "email": "isabelle.laurent@univ-lyon.fr",
+      "password": "direction123",
+      "role": "executive",
+      "roleLabel": "Directrice Générale",
+      "avatar": "IL",
+      "redirect": "executive-direction.html"
+    }
+  ]
+}

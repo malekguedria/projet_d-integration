@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direction de l'Établissement — Vue exécutive | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="executive-direction.html" class="sidebar-brand">
+                <div class="logo-mark" style="background:linear-gradient(135deg,#0F172A,#2563EB);">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">DIRECTION GÉNÉRALE</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="executive-direction.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Vue exécutive</span>
+                </a>
+                <a href="executive-direction.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+                    <span>Tous les masters</span>
+                </a>
+                <a href="executive-direction.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span>Statistiques globales</span>
+                </a>
+                <a href="executive-direction.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>Rapports de direction</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar" style="background:#DBEAFE;color:#1E40AF;">IL</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Isabelle Laurent</span>
+                        <span class="user-role" id="sidebar-user-role">Directrice Générale</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
+                    <span class="shortcut">⌘K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-sm btn-outline" onclick="triggerExport('synthese-direction')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter
+                    </button>
+                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="notification-dot" id="unread-dot"></span>
+                    </button>
+                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content: Executive Direction -->
+            <main class="view-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Vue exécutive</h1>
+                        <p class="page-subtitle">Performance globale des stages — Année universitaire 2024-2025</p>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <select class="filter-select" style="font-weight:600;font-size:13px;">
+                            <option>Année 2024-2025</option>
+                            <option>Année 2023-2024</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="showToast('Génération du rapport exécutif consolidé 2024-2025...', 'info')">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                            Rapport de direction
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Exec Hero Banner -->
+                <div class="exec-hero">
+                    <div>
+                        <div style="font-size:12px;font-weight:700;color:#93C5FD;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;">BILAN STRATÉGIQUE</div>
+                        <h2 style="font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-0.025em;line-height:1.3;">Une campagne en avance sur les objectifs : 84% des étudiants sont casés</h2>
+                        <p style="font-size:13.5px;color:#94A3B8;max-width:640px;line-height:1.5;">Soit <strong>+3,5 points</strong> par rapport à la même période l'année dernière. 912 conventions signées.</p>
+                    </div>
+                    <button class="btn btn-primary" style="background:#2563EB;border:none;box-shadow:0 4px 14px rgba(37,99,235,0.45);padding:12px 22px;" onclick="showToast('Téléchargement de la note de synthèse stratégique (PDF)...', 'success')">
+                        Télécharger la note de synthèse
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Étudiants concernés</div>
+                        <div class="kpi-value">1 248</div>
+                        <div class="kpi-sub">Master 1 & Master 2</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Stages confirmés <span class="kpi-pill up">84% placés</span></div>
+                        <div class="kpi-value">1 048</div>
+                        <div class="kpi-sub">+52 cette semaine</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Entreprises partenaires</div>
+                        <div class="kpi-value">386</div>
+                        <div class="kpi-sub">72 nouvelles conventions</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Conventions signées <span class="kpi-pill up">87%</span></div>
+                        <div class="kpi-value">912</div>
+                        <div class="kpi-sub">dossiers 100% clos</div>
+                    </div>
+                </div>
+
+                <div class="grid-8-4">
+                    <!-- Left: Placements cumulés & Table par département -->
+                    <div style="display:flex;flex-direction:column;gap:28px;">
+                        <!-- Chart Placements cumulés -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Placements cumulés vs Objectifs</span>
+                                <span class="badge badge-green">+8.5% trajectoire</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="chart-box">
+                                    <div class="bar-col">
+                                        <div class="bar-rect" style="height:20%;"><span class="bar-tooltip">220 stages</span></div>
+                                        <span class="bar-label">M1</span>
+                                    </div>
+                                    <div class="bar-col">
+                                        <div class="bar-rect" style="height:35%;"><span class="bar-tooltip">410 stages</span></div>
+                                        <span class="bar-label">M2</span>
+                                    </div>
+                                    <div class="bar-col">
+                                        <div class="bar-rect" style="height:55%;"><span class="bar-tooltip">680 stages</span></div>
+                                        <span class="bar-label">M3</span>
+                                    </div>
+                                    <div class="bar-col">
+                                        <div class="bar-rect" style="height:72%;"><span class="bar-tooltip">890 stages</span></div>
+                                        <span class="bar-label">M4</span>
+                                    </div>
+                                    <div class="bar-col">
+                                        <div class="bar-rect active-bar" style="height:84%;"><span class="bar-tooltip">1 048 stages (Actuel)</span></div>
+                                        <span class="bar-label">M5</span>
+                                    </div>
+                                    <div class="bar-col">
+                                        <div class="bar-rect" style="height:95%;background:#BFDBFE;"><span class="bar-tooltip">Obj: 1 180</span></div>
+                                        <span class="bar-label">Cible</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table Performance par département -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Performance par département</span>
+                                <button class="btn btn-sm btn-outline" onclick="triggerExport('departements')">Exporter CSV</button>
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div class="data-table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Département</th>
+                                                <th>Inscrits</th>
+                                                <th>Placés</th>
+                                                <th>Taux</th>
+                                                <th>Conventions</th>
+                                                <th>Évolution</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Informatique & R&D</strong></td>
+                                                <td>378</td>
+                                                <td>319</td>
+                                                <td><strong>84,4%</strong></td>
+                                                <td>248</td>
+                                                <td><span class="badge badge-green">+2.5%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Électronique & Systèmes</strong></td>
+                                                <td>236</td>
+                                                <td>201</td>
+                                                <td><strong>85,2%</strong></td>
+                                                <td>182</td>
+                                                <td><span class="badge badge-green">+4.8%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Sciences Humaines & Sociales</strong></td>
+                                                <td>310</td>
+                                                <td>228</td>
+                                                <td><strong>73,5%</strong></td>
+                                                <td>201</td>
+                                                <td><span class="badge badge-yellow">-1.2%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Arts, Médias & Design</strong></td>
+                                                <td>178</td>
+                                                <td>151</td>
+                                                <td><strong>84,8%</strong></td>
+                                                <td>142</td>
+                                                <td><span class="badge badge-green">+2.0%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Secteurs partenaires, Points d'attention, Rapports récents -->
+                    <div style="display:flex;flex-direction:column;gap:28px;">
+                        <!-- Secteurs Partenaires -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Secteurs partenaires</span>
+                            </div>
+                            <div class="card-body" style="display:flex;flex-direction:column;gap:14px;">
+                                <div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                        <span>Tech & Numérique</span>
+                                        <strong>34%</strong>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width:34%;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                        <span>Industrie & Énergie</span>
+                                        <strong>22%</strong>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width:22%;background:#10B981;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                        <span>Conseil & Finance</span>
+                                        <strong>18%</strong>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width:18%;background:#F59E0B;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                        <span>Santé & Pharma</span>
+                                        <strong>14%</strong>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width:14%;background:#8B5CF6;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                        <span>Autres secteurs</span>
+                                        <strong>12%</strong>
+                                    </div>
+                                    <div class="progress-bar-container"><div class="progress-bar-fill" style="width:12%;background:#94A3B8;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Points d'attention -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Points d'attention</span>
+                                <span class="badge badge-yellow">3 alertes</span>
+                            </div>
+                            <div class="card-body" style="display:flex;flex-direction:column;gap:10px;font-size:12.5px;">
+                                <div style="padding:10px 14px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;color:#92400E;">
+                                    <strong>Sciences Humaines</strong> : 3 alertes d'abandon de stage
+                                </div>
+                                <div style="padding:10px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;color:#991B1B;">
+                                    <strong>14 conventions en retard</strong> de contre-signature
+                                </div>
+                                <div style="padding:10px 14px;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;color:#475569;">
+                                    <strong>4 élèves</strong> en rattrapage d'évaluation
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rapports récents -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Rapports récents</span>
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div style="padding:12px 20px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+                                    <div>
+                                        <div style="font-weight:600;">Rapport mensuel — Trajectoire</div>
+                                        <div style="font-size:11.5px;color:#64748B;">Octobre 2025 • PDF</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement du rapport mensuel...', 'info')">↓</button>
+                                </div>
+                                <div style="padding:12px 20px;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+                                    <div>
+                                        <div style="font-weight:600;">Baromètre entreprises</div>
+                                        <div style="font-size:11.5px;color:#64748B;">Enquête Q3 • Excel</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement du baromètre...', 'info')">↓</button>
+                                </div>
+                                <div style="padding:12px 20px;display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+                                    <div>
+                                        <div style="font-weight:600;">Bilan 2023-2024 — REX</div>
+                                        <div style="font-size:11.5px;color:#64748B;">Rapport final • PDF</div>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement du bilan final...', 'info')">↓</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth();
+        });
+    </script>
+</body>
+</html>

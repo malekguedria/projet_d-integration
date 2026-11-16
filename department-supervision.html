@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Chef de Département — Supervision | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="department-supervision.html" class="sidebar-brand">
+                <div class="logo-mark" style="background:linear-gradient(135deg,#1E293B,#334155);">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">DÉPARTEMENT INFO</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="department-supervision.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span>Supervision filières</span>
+                </a>
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>Étudiants</span>
+                </a>
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <span>Partenaires</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar" style="background:#E2E8F0;color:#1E293B;">MB</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Pr Marc Boissieu</span>
+                        <span class="user-role" id="sidebar-user-role">Chef de Département</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
+                    <span class="shortcut">⌘K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-sm btn-outline" onclick="triggerExport('rapport-departement')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter
+                    </button>
+                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="notification-dot" id="unread-dot"></span>
+                    </button>
+                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content: Department Supervision -->
+            <main class="view-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Département Informatique</h1>
+                        <p class="page-subtitle">Supervision des parcours et campagnes de stage 2024-2025</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="triggerExport('dept-report')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter le rapport complet
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Étudiants inscrits</div>
+                        <div class="kpi-value">126</div>
+                        <div class="kpi-sub">100% des effectifs Master</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Stages validés <span class="kpi-pill up">65% placés</span></div>
+                        <div class="kpi-value">82</div>
+                        <div class="kpi-sub">conventions enregistrées</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Entretiens & pistes <span class="kpi-pill warning">Actif</span></div>
+                        <div class="kpi-value">9</div>
+                        <div class="kpi-sub">signalements sous surveillance</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Taux de placement</div>
+                        <div class="kpi-value">76%</div>
+                        <div class="kpi-sub">Objectif : 95% fin novembre</div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="switchDeptTab(this)">Vue d'ensemble</button>
+                    <button class="tab-btn" onclick="switchDeptTab(this)">Affectations</button>
+                    <button class="tab-btn" onclick="switchDeptTab(this)">Conventions</button>
+                    <button class="tab-btn" onclick="switchDeptTab(this)">Évaluations</button>
+                    <button class="tab-btn" onclick="switchDeptTab(this)">Partenaires</button>
+                </div>
+
+                <!-- Priority Alert Banner -->
+                <div class="alert-banner warning">
+                    <div>
+                        <div style="font-weight:700;font-size:14.5px;color:#92400E;margin-bottom:4px;">DSI — Alertes prioritaires : 44 étudiants sans stage — taux de placement à 55,6%</div>
+                        <div style="font-size:12.5px;color:#B45309;">Effectif total : 99 | Avec stage : 55 | Sans stage : 44 | Action requise avant le 1er décembre</div>
+                    </div>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-sm btn-primary" onclick="openModal('modal-cohort-analysis')">Analyser les 44 étudiants</button>
+                        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-cohort-analysis')">Voir les motifs</button>
+                    </div>
+                </div>
+
+                <!-- Table Situation de placement par parcours -->
+                <div class="card" style="margin-bottom:32px;">
+                    <div class="card-header">
+                        <span class="card-title">Situation de placement par parcours</span>
+                        <span class="badge badge-blue">Campagne 2024-2025</span>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <div class="data-table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Parcours</th>
+                                        <th>Inscrits</th>
+                                        <th>Avec stage</th>
+                                        <th>Sans stage</th>
+                                        <th>Taux placement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background:#FFFBEB;">
+                                        <td><strong>DSI (Développement & Systèmes d'Information)</strong></td>
+                                        <td>99</td>
+                                        <td>55</td>
+                                        <td><span class="badge badge-red">44</span></td>
+                                        <td><strong>55,6%</strong></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="openModal('modal-cohort-analysis')">Analyser</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Réseaux & Systèmes Distribués</strong></td>
+                                        <td>48</td>
+                                        <td>36</td>
+                                        <td>12</td>
+                                        <td><strong>75,0%</strong></td>
+                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours Réseaux', 'info')">Voir</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Cybersécurité & Gouvernance</strong></td>
+                                        <td>42</td>
+                                        <td>34</td>
+                                        <td>8</td>
+                                        <td><strong>81,0%</strong></td>
+                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours Cyber', 'info')">Voir</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Intelligence Artificielle & Data Science</strong></td>
+                                        <td>72</td>
+                                        <td>61</td>
+                                        <td>11</td>
+                                        <td><strong>84,7%</strong></td>
+                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours IA', 'info')">Voir</button></td>
+                                    </tr>
+                                    <tr style="background:#F8FAFC;font-weight:700;">
+                                        <td>Total Master Informatique</td>
+                                        <td>261</td>
+                                        <td>186</td>
+                                        <td>75</td>
+                                        <td>71,3%</td>
+                                        <td><button class="btn btn-sm btn-outline" onclick="triggerExport('synthese-master')">Synthèse</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Évolution des stages actifs</span>
+                            <span style="font-size:12.5px;color:#64748B;">Moyenne mensuelle</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-box">
+                                <div class="bar-col">
+                                    <div class="bar-rect" style="height:25%;"><span class="bar-tooltip">28 stages</span></div>
+                                    <span class="bar-label">Juin</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar-rect" style="height:45%;"><span class="bar-tooltip">56 stages</span></div>
+                                    <span class="bar-label">Juil</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar-rect" style="height:60%;"><span class="bar-tooltip">82 stages</span></div>
+                                    <span class="bar-label">Août</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar-rect" style="height:78%;"><span class="bar-tooltip">110 stages</span></div>
+                                    <span class="bar-label">Sept</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar-rect active-bar" style="height:92%;"><span class="bar-tooltip">126 stages (Actuel)</span></div>
+                                    <span class="bar-label">Oct</span>
+                                </div>
+                                <div class="bar-col">
+                                    <div class="bar-rect" style="height:98%;background:#93C5FD;"><span class="bar-tooltip">Proj. 140</span></div>
+                                    <span class="bar-label">Nov</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">Répartition des stages</span>
+                            <span class="badge badge-green">186 total</span>
+                        </div>
+                        <div class="card-body" style="display:flex;align-items:center;justify-content:center;height:220px;">
+                            <div class="donut-container">
+                                <div class="donut-circle">
+                                    <div class="donut-hole">
+                                        <span class="donut-val">186</span>
+                                        <span style="font-size:11px;color:#64748B;">stages</span>
+                                    </div>
+                                </div>
+                                <div class="donut-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background:#2563EB;"></div>
+                                        <span>En cours (126) • 68%</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background:#F59E0B;"></div>
+                                        <span>À démarrer (42) • 20%</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-dot" style="background:#10B981;"></div>
+                                        <span>Terminés (18) • 12%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Modal Cohort Analysis -->
+    <div class="modal-overlay" id="modal-cohort-analysis">
+        <div class="modal-card" style="max-width:680px;">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">Analyse approfondie — DSI (44 étudiants sans stage)</h3>
+                    <div style="font-size:12px;color:#92400E;">Campagne 2024-2025 • Action prioritaire</div>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-cohort-analysis')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-banner warning" style="margin-bottom:18px;">
+                    <div>
+                        <strong>Motifs identifiés par l'enquête scolarité :</strong><br>
+                        • 22 étudiants ont au moins 2 entretiens planifiés cette semaine.<br>
+                        • 14 étudiants ont besoin d'un coaching CV / pitch de présentation.<br>
+                        • 8 étudiants n'ont pas encore commencé leur prospection active.
+                    </div>
+                </div>
+
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:10px;">Actions d'urgence recommandées :</h4>
+                <div style="display:flex;flex-direction:column;gap:10px;font-size:13.5px;">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <input type="checkbox" checked style="accent-color:#2563EB;">
+                        Envoyer le pack de 15 offres exclusives partenaires aux 44 étudiants
+                    </label>
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <input type="checkbox" checked style="accent-color:#2563EB;">
+                        Organiser un job dating express jeudi 24 octobre à l'université
+                    </label>
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <input type="checkbox" checked style="accent-color:#2563EB;">
+                        Convoquer les 8 étudiants sans piste pour un tutorat personnalisé
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-cohort-analysis')">Fermer</button>
+                <button class="btn btn-primary" onclick="closeModal('modal-cohort-analysis');showToast('Plan d\'urgence activé avec succès !', 'success')">Déployer le plan d'action d'urgence</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth();
+        });
+
+        function switchDeptTab(btn) {
+            btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showToast(`Onglet actif : ${btn.textContent}`, 'info');
+        }
+    </script>
+</body>
+</html>

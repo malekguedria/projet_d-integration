@@ -1,0 +1,19 @@
+{
+  "name": "stageflow-integration",
+  "version": "1.0.0",
+  "description": "Plateforme institutionnelle intégrée de gestion des stages - StageFlow",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "stageflow",
+    "stages",
+    "maquette",
+    "dashboard",
+    "education"
+  ],
+  "author": "StageFlow Team",
+  "license": "MIT"
+}

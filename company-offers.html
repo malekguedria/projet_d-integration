@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Entreprise — Offres & Candidatures | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="company-offers.html" class="sidebar-brand">
+                <div class="logo-mark" style="background:linear-gradient(135deg,#059669,#10B981);">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">ESPACE ENTREPRISE</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="company-offers.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="company-offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span>Offres de stage</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="company-offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>Candidatures</span>
+                    <span class="nav-badge">42</span>
+                </a>
+                <a href="company-offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <span>Messages</span>
+                </a>
+                <a href="company-offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Suivi stagiaires</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar" style="background:#D1FAE5;color:#065F46;">AL</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Antoine Leroy</span>
+                        <span class="user-role" id="sidebar-user-role">Directeur — NovoOps</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
+                    <span class="shortcut">⌘K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-sm btn-outline" onclick="triggerExport('candidatures')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter
+                    </button>
+                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="notification-dot" id="unread-dot"></span>
+                    </button>
+                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content: Company Offers & Applications -->
+            <main class="view-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Offres & candidatures</h1>
+                        <p class="page-subtitle">Gérez vos offres et sélectionnez vos meilleurs profils stagiaires</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openCreateOfferModal()">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                        + Nouvelle offre
+                    </button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label">Offres actives <span class="kpi-pill up">+2 ce mois</span></div>
+                        <div class="kpi-value" id="company-active-offers-count">5</div>
+                        <div class="kpi-sub">5 publiées sur la plateforme</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Candidatures reçues <span class="kpi-pill up">+8 nouvelles</span></div>
+                        <div class="kpi-value">42</div>
+                        <div class="kpi-sub">12 à traiter aujourd'hui</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Entretiens à venir</div>
+                        <div class="kpi-value">7</div>
+                        <div class="kpi-sub">cette semaine</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label">Stagiaires en cours</div>
+                        <div class="kpi-value">8 <span style="font-size:15px;color:#64748B;font-weight:500;">/ 10</span></div>
+                        <div class="kpi-sub">8 conventions actives</div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="switchCompanyTab(this)">Offres publiées (5)</button>
+                    <button class="tab-btn" onclick="switchCompanyTab(this)">Brouillons (2)</button>
+                    <button class="tab-btn" onclick="switchCompanyTab(this)">Candidatures reçues (42)</button>
+                    <button class="tab-btn" onclick="switchCompanyTab(this)">Profil entreprise</button>
+                </div>
+
+                <div class="grid-7-5">
+                    <!-- Left: Active Offers List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="card-title">5 offres actives</span>
+                            <span style="font-size:12.5px;color:#64748B;">124 vues et 42 postulants au total</span>
+                        </div>
+                        <div class="card-body" style="padding:0;">
+                            <div style="padding:16px 24px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <div style="font-weight:700;font-size:14.5px;color:#0F172A;">Data analyst — Mobilité</div>
+                                    <div style="font-size:12.5px;color:#64748B;">Publiée le 28 sept. 2025 • Lyon • 6 mois</div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <span class="badge badge-green">14 postulants</span>
+                                    <button class="btn btn-sm btn-secondary" onclick="showToast('Gestion de l\'offre Data analyst', 'info')">Gérer</button>
+                                </div>
+                            </div>
+                            <div style="padding:16px 24px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <div style="font-weight:700;font-size:14.5px;color:#0F172A;">Data engineer — Smart City</div>
+                                    <div style="font-size:12.5px;color:#64748B;">Publiée le 24 sept. 2025 • Lyon • 6 mois</div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <span class="badge badge-green">9 postulants</span>
+                                    <button class="btn btn-sm btn-secondary" onclick="showToast('Gestion de l\'offre Data engineer', 'info')">Gérer</button>
+                                </div>
+                            </div>
+                            <div style="padding:16px 24px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <div style="font-weight:700;font-size:14.5px;color:#0F172A;">UX researcher — Smart City</div>
+                                    <div style="font-size:12.5px;color:#64748B;">Publiée le 15 sept. 2025 • Hybride • 5 mois</div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <span class="badge badge-green">11 postulants</span>
+                                    <button class="btn btn-sm btn-secondary" onclick="showToast('Gestion de l\'offre UX researcher', 'info')">Gérer</button>
+                                </div>
+                            </div>
+                            <div style="padding:16px 24px;display:flex;align-items:center;justify-content:space-between;">
+                                <div>
+                                    <div style="font-weight:700;font-size:14.5px;color:#0F172A;">Développeur backend Python</div>
+                                    <div style="font-size:12.5px;color:#64748B;">Publiée le 01 sept. 2025 • Lyon • 6 mois</div>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <span class="badge badge-green">8 postulants</span>
+                                    <button class="btn btn-sm btn-secondary" onclick="showToast('Gestion de l\'offre Backend Python', 'info')">Gérer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Candidates to Decide (Profils à décider) -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <span class="card-title">Profils à décider</span>
+                                <div style="font-size:12px;color:#64748B;">Candidatures présélectionnées par votre équipe</div>
+                            </div>
+                            <span class="badge badge-blue">3 en attente</span>
+                        </div>
+                        <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+                            <!-- Candidate 1 -->
+                            <div class="card" id="candidate-card-1" style="border:1px solid #E2E8F0;padding:16px;">
+                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <div class="avatar" style="background:#DBEAFE;color:#1E40AF;">CM</div>
+                                        <div>
+                                            <div style="font-weight:700;font-size:14px;">Clara Martin</div>
+                                            <div style="font-size:12px;color:#64748B;">M2 Informatique • Lyon 1</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-green">95% Match</span>
+                                </div>
+                                <div style="font-size:12.5px;color:#475569;margin-bottom:12px;">Postule pour : <strong>Data analyst — Mobilité</strong></div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-1', 'Clara Martin', 'accept')">Accepter</button>
+                                    <button class="btn btn-outline btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-1', 'Clara Martin', 'reject')">Refuser</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="showToast('Affichage du CV de Clara Martin', 'info')">CV</button>
+                                </div>
+                            </div>
+
+                            <!-- Candidate 2 -->
+                            <div class="card" id="candidate-card-2" style="border:1px solid #E2E8F0;padding:16px;">
+                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <div class="avatar" style="background:#FEF3C7;color:#92400E;">TS</div>
+                                        <div>
+                                            <div style="font-weight:700;font-size:14px;">Tariq Sengé</div>
+                                            <div style="font-size:12px;color:#64748B;">M2 Intelligence Artificielle</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-green">91% Match</span>
+                                </div>
+                                <div style="font-size:12.5px;color:#475569;margin-bottom:12px;">Postule pour : <strong>Data engineer — Smart City</strong></div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-2', 'Tariq Sengé', 'accept')">Accepter</button>
+                                    <button class="btn btn-outline btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-2', 'Tariq Sengé', 'reject')">Refuser</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="showToast('Affichage du CV de Tariq Sengé', 'info')">CV</button>
+                                </div>
+                            </div>
+
+                            <!-- Candidate 3 -->
+                            <div class="card" id="candidate-card-3" style="border:1px solid #E2E8F0;padding:16px;">
+                                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <div class="avatar" style="background:#FCE7F3;color:#9D174D;">LD</div>
+                                        <div>
+                                            <div style="font-weight:700;font-size:14px;">Léa Dubois</div>
+                                            <div style="font-size:12px;color:#64748B;">M1 Ergonomie & Design</div>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-green">88% Match</span>
+                                </div>
+                                <div style="font-size:12.5px;color:#475569;margin-bottom:12px;">Postule pour : <strong>UX researcher</strong></div>
+                                <div style="display:flex;gap:8px;">
+                                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-3', 'Léa Dubois', 'accept')">Accepter</button>
+                                    <button class="btn btn-outline btn-sm" style="flex:1;" onclick="handleCandidateDecision('candidate-card-3', 'Léa Dubois', 'reject')">Refuser</button>
+                                    <button class="btn btn-secondary btn-sm" onclick="showToast('Affichage du CV de Léa Dubois', 'info')">CV</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Modal Create Offer -->
+    <div class="modal-overlay" id="modal-create-offer">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Créer une offre de stage</h3>
+                <button class="modal-close" onclick="closeModal('modal-create-offer')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-create-offer" onsubmit="handleCreateOfferSubmit(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="new-offer-title">Intitulé du poste *</label>
+                        <input type="text" id="new-offer-title" class="form-control" placeholder="ex: Data analyst — Prévision des flux" required>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-dept">Type / Département *</label>
+                            <select id="new-offer-dept" class="form-control" required>
+                                <option value="data">Data & BI</option>
+                                <option value="ia">Intelligence Artificielle</option>
+                                <option value="web">Développement Web / Mobile</option>
+                                <option value="cyber">Cybersécurité</option>
+                                <option value="ux">UX / Design</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-city">Ville *</label>
+                            <input type="text" id="new-offer-city" class="form-control" placeholder="Lyon, Paris..." required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-start">Date de début *</label>
+                            <input type="date" id="new-offer-start" class="form-control" value="2025-02-15" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-duration">Durée (mois) *</label>
+                            <input type="number" id="new-offer-duration" class="form-control" value="6" min="1" max="12" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-salary">Gratification mensuelle (€) *</label>
+                            <input type="text" id="new-offer-salary" class="form-control" value="1 250 €" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="new-offer-mode">Mode de travail</label>
+                            <select id="new-offer-mode" class="form-control">
+                                <option>Hybride (2j télétravail)</option>
+                                <option>100% sur site</option>
+                                <option>100% télétravail</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="new-offer-skills">Compétences requises (séparées par des virgules)</label>
+                        <input type="text" id="new-offer-skills" class="form-control" placeholder="Python, SQL, Machine Learning, Power BI">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="new-offer-desc">Description de la mission *</label>
+                        <textarea id="new-offer-desc" class="form-control" style="height:90px;padding:10px 14px;" placeholder="Détaillez les objectifs, missions principales et environnement technique..." required></textarea>
+                    </div>
+
+                    <div class="modal-footer" style="padding:18px 0 0 0;background:none;border-top:none;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-offer')">Annuler</button>
+                        <button type="button" class="btn btn-outline" onclick="closeModal('modal-create-offer');showToast('Brouillon sauvegardé', 'info')">Enregistrer en brouillon</button>
+                        <button type="submit" class="btn btn-primary">Enregistrer et publier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth();
+        });
+
+        function switchCompanyTab(btn) {
+            btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showToast(`Onglet actif : ${btn.textContent}`, 'info');
+        }
+
+        function openCreateOfferModal() {
+            openModal('modal-create-offer');
+        }
+
+        function handleCreateOfferSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('new-offer-title').value;
+            closeModal('modal-create-offer');
+            showToast(`L'offre "${title}" a été publiée avec succès !`, 'success');
+
+            const countEl = document.getElementById('company-active-offers-count');
+            if (countEl) countEl.textContent = parseInt(countEl.textContent) + 1;
+        }
+
+        function handleCandidateDecision(cardId, candidateName, action) {
+            const card = document.getElementById(cardId);
+            if (!card) return;
+
+            if (action === 'accept') {
+                card.style.border = '1px solid #A7F3D0';
+                card.style.background = '#ECFDF5';
+                const btn = card.querySelector('.btn-primary');
+                if (btn) {
+                    btn.textContent = '✓ Accepté';
+                    btn.disabled = true;
+                    btn.classList.replace('btn-primary', 'btn-success');
+                }
+                showToast(`Candidature de ${candidateName} acceptée !`, 'success');
+            } else {
+                card.style.opacity = '0.5';
+                showToast(`Candidature de ${candidateName} refusée.`, 'warning');
+            }
+        }
+    </script>
+</body>
+</html>

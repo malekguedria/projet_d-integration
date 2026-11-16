@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Étudiant — Tableau de bord | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="student-dashboard.html" class="sidebar-brand">
+                <div class="logo-mark">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">ESPACE ÉTUDIANT</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="student-dashboard.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="student-offers.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span>Offres de stage</span>
+                    <span class="nav-badge">28</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-9a2 2 0 00-2-2h-2M9 5a2 2 0 002 2 2 2 0 002-2M9 5a2 2 0 012-2 2 2 0 012 2"/></svg>
+                    <span>Candidatures</span>
+                    <span class="nav-badge">3</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7H7l3-7z"/><path d="M4 17h12M4 17l2-5h8l2 5"/></svg>
+                    <span>Mon stage</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2h8l4 4v12a2 2 0 01-2 2H4a2 2 0 01-2-2V4a2 2 0 012-2z"/></svg>
+                    <span>Documents</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Réunions</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar">CM</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Clara Martin</span>
+                        <span class="user-role" id="sidebar-user-role">Étudiante Master 2 Informatique</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- App Header -->
+            <header class="app-header">
+                <div class="header-search">
+                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
+                    <span class="shortcut">⌘K</span>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn btn-sm btn-outline" onclick="triggerExport('recap-etudiant')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter
+                    </button>
+                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                        <span class="notification-dot" id="unread-dot"></span>
+                    </button>
+                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content: Student Dashboard -->
+            <main class="view-content">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Tableau de bord étudiant</h1>
+                        <p class="page-subtitle">Suivi du parcours, documents et réunions de stage</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="triggerExport('student-recap')">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter le récap
+                    </button>
+                </div>
+
+                <!-- Workflow Stepper Full -->
+                <div class="card" style="margin-bottom:32px;">
+                    <div class="card-header">
+                        <span class="card-title">Workflow complet</span>
+                        <span class="badge badge-blue">Étape 4 / 7 — En cours</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="workflow-stepper">
+                            <div class="workflow-line">
+                                <div class="workflow-line-progress" style="width: 52%;"></div>
+                            </div>
+                            <div class="workflow-step completed" onclick="showToast('Jalon validé : Recherche entreprise confirmée', 'success')">
+                                <div class="step-circle">✓</div>
+                                <span class="step-label">Recherche validée</span>
+                            </div>
+                            <div class="workflow-step completed" onclick="showToast('Jalon validé : Offre acceptée par NovoOps', 'success')">
+                                <div class="step-circle">✓</div>
+                                <span class="step-label">Offre acceptée</span>
+                            </div>
+                            <div class="workflow-step completed" onclick="showToast('Jalon validé : Convention tripartite signée', 'success')">
+                                <div class="step-circle">✓</div>
+                                <span class="step-label">Convention signée</span>
+                            </div>
+                            <div class="workflow-step active" onclick="showToast('Étape actuelle : Stage en entreprise en cours', 'info')">
+                                <div class="step-circle">4</div>
+                                <span class="step-label">Stage en cours</span>
+                            </div>
+                            <div class="workflow-step" onclick="showToast('Prochaine étape : Bilan intermédiaire prévu fin octobre', 'info')">
+                                <div class="step-circle">5</div>
+                                <span class="step-label">Bilan mi-parcours</span>
+                            </div>
+                            <div class="workflow-step" onclick="showToast('Étape à venir : Soutenance finale en juillet', 'info')">
+                                <div class="step-circle">6</div>
+                                <span class="step-label">Soutenance</span>
+                            </div>
+                            <div class="workflow-step" onclick="showToast('Étape finale : Note et validation des crédits ECTS', 'info')">
+                                <div class="step-circle">7</div>
+                                <span class="step-label">Évaluation finale</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="switchStudentTab(this)">Vue d'ensemble</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Dossier & convention</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Documents (4)</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Réunions (2)</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Évaluation</button>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="grid-7-5">
+                    <!-- Left: Current Stage Card & Documents -->
+                    <div style="display:flex;flex-direction:column;gap:24px;">
+                        <!-- Current Stage Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div>
+                                    <span class="card-title">Stage chez NovoOps</span>
+                                    <div style="font-size:12.5px;color:#64748B;margin-top:2px;">Période : 15 fév - 31 juil 2025</div>
+                                </div>
+                                <span class="badge badge-yellow">52% effectué</span>
+                            </div>
+                            <div class="card-body">
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;font-weight:600;">
+                                    <span>Progression globale du stage</span>
+                                    <span>52%</span>
+                                </div>
+                                <div class="progress-bar-container" style="margin-bottom:18px;">
+                                    <div class="progress-bar-fill" style="width:52%;"></div>
+                                </div>
+
+                                <ul class="check-list">
+                                    <li class="check-item">
+                                        <div style="display:flex;align-items:center;">
+                                            <span class="check-indicator ok">✓</span>
+                                            <span>Fiche de poste & cadrage</span>
+                                        </div>
+                                        <span class="badge badge-green">Validé</span>
+                                    </li>
+                                    <li class="check-item">
+                                        <div style="display:flex;align-items:center;">
+                                            <span class="check-indicator pending">!</span>
+                                            <span>Analyse mi-parcours</span>
+                                        </div>
+                                        <span class="badge badge-yellow">En cours</span>
+                                    </li>
+                                    <li class="check-item">
+                                        <div style="display:flex;align-items:center;">
+                                            <span class="check-indicator" style="background:#F1F5F9;color:#64748B;">•</span>
+                                            <span>Soutenance à blanc</span>
+                                        </div>
+                                        <span class="badge badge-gray">À venir</span>
+                                    </li>
+                                    <li class="check-item">
+                                        <div style="display:flex;align-items:center;">
+                                            <span class="check-indicator pending">!</span>
+                                            <span>Évaluation intermédiaire tuteur</span>
+                                        </div>
+                                        <span class="badge badge-yellow">En cours</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Documents Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Documents du stage</span>
+                                <button class="btn btn-sm btn-primary" onclick="openUploadModal()">
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                                    Déposer
+                                </button>
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="font-size:18px;">📄</span>
+                                        <div>
+                                            <div style="font-weight:600;">Convention_signée_NovoOps.pdf</div>
+                                            <div style="font-size:11.5px;color:#64748B;">Signé le 12/02/2025 • 1.2 Mo</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:10px;">
+                                        <span class="badge badge-green">Validé</span>
+                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Convention_signée_NovoOps.pdf', 'info')">↓</button>
+                                    </div>
+                                </div>
+                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="font-size:18px;">📄</span>
+                                        <div>
+                                            <div style="font-weight:600;">Attestation_assurance_RC.pdf</div>
+                                            <div style="font-size:11.5px;color:#64748B;">Déposé le 10/02/2025 • 420 Ko</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:10px;">
+                                        <span class="badge badge-green">Validé</span>
+                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Attestation_assurance_RC.pdf', 'info')">↓</button>
+                                    </div>
+                                </div>
+                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="font-size:18px;">📄</span>
+                                        <div>
+                                            <div style="font-weight:600;">Rapport_intermediaire_V1.pdf</div>
+                                            <div style="font-size:11.5px;color:#64748B;">En relecture par Sophie Moreau</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:10px;">
+                                        <span class="badge badge-yellow">En révision</span>
+                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Rapport_intermediaire_V1.pdf', 'info')">↓</button>
+                                    </div>
+                                </div>
+                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;font-size:13.5px;">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span style="font-size:18px;">📄</span>
+                                        <div>
+                                            <div style="font-weight:600;">Journal_de_bord_mensuel.pdf</div>
+                                            <div style="font-size:11.5px;color:#64748B;">Dernière mise à jour : 14/10/2025</div>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex;align-items:center;gap:10px;">
+                                        <span class="badge badge-gray">À actualiser</span>
+                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Journal_de_bord_mensuel.pdf', 'info')">↓</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Réunions, Dossier administratif, Notifications -->
+                    <div style="display:flex;flex-direction:column;gap:24px;">
+                        <!-- Réunions Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Réunions</span>
+                                <button class="btn btn-sm btn-secondary" onclick="openModal('modal-visio')">+ Demander</button>
+                            </div>
+                            <div class="card-body">
+                                <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-bottom:14px;">
+                                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                                        <span class="badge badge-blue">Vendredi 18 OCT • 14h30</span>
+                                        <span class="badge badge-green">Confirmé</span>
+                                    </div>
+                                    <div style="font-weight:700;font-size:14px;color:#0F172A;margin-bottom:4px;">Point de suivi intermédiaire</div>
+                                    <div style="font-size:12.5px;color:#64748B;margin-bottom:14px;">Avec Sophie Moreau (Encadrante) et Marc V. (Tuteur NovoOps)</div>
+                                    <div style="display:flex;gap:10px;">
+                                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="openModal('modal-visio')">Rejoindre la visio</button>
+                                        <button class="btn btn-secondary btn-sm" onclick="showToast('Formulaire de report de réunion ouvert', 'info')">Modifier</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dossier Administratif Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Dossier administratif</span>
+                                <span style="font-size:13px;font-weight:700;color:#059669;">80%</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress-bar-container" style="margin-bottom:14px;">
+                                    <div class="progress-bar-fill" style="width:80%;background:#059669;"></div>
+                                </div>
+                                <div class="alert-banner warning" style="padding:12px 16px;margin-bottom:14px;font-size:12.5px;">
+                                    <span>⚠️ Attestation d'assurance non encore validée par le secrétariat</span>
+                                </div>
+                                <button class="btn btn-outline btn-sm" style="width:100%;" onclick="showToast('Affichage du dossier administratif complet', 'info')">Ouvrir le dossier complet</button>
+                            </div>
+                        </div>
+
+                        <!-- Notifications Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="card-title">Notifications</span>
+                                <span class="badge badge-blue">3 nouvelles</span>
+                            </div>
+                            <div class="card-body" style="padding:0;">
+                                <div style="padding:14px 20px;border-bottom:1px solid #F1F5F9;font-size:13px;">
+                                    <div style="color:#0F172A;">• Votre convention a été signée par <strong>NovoOps</strong></div>
+                                    <span style="font-size:11.5px;color:#94A3B8;">Aujourd'hui à 11:20</span>
+                                </div>
+                                <div style="padding:14px 20px;border-bottom:1px solid #F1F5F9;font-size:13px;">
+                                    <div style="color:#0F172A;">• Nouvelle remarque sur votre journal de bord</div>
+                                    <span style="font-size:11.5px;color:#94A3B8;">Hier à 16:45</span>
+                                </div>
+                                <div style="padding:14px 20px;font-size:13px;">
+                                    <div style="color:#0F172A;">• Rendez-vous mi-parcours confirmé</div>
+                                    <span style="font-size:11.5px;color:#94A3B8;">Il y a 2 jours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Modal Visio -->
+    <div class="modal-overlay" id="modal-visio">
+        <div class="modal-card" style="max-width:620px;">
+            <div class="modal-header" style="background:#0F172A;color:#FFFFFF;border-color:#1E293B;">
+                <div>
+                    <h3 class="modal-title" style="color:#FFFFFF;">StageFlow Meet — Point de suivi intermédiaire</h3>
+                    <div style="font-size:12px;color:#94A3B8;">Participants : Clara Martin, Sophie Moreau, Marc Vallet</div>
+                </div>
+                <button class="modal-close" style="color:#FFFFFF;" onclick="closeModal('modal-visio')">&times;</button>
+            </div>
+            <div class="modal-body" style="background:#0B132B;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;padding:36px;">
+                <div style="width:100%;height:230px;background:#1E293B;border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:24px;border:1px solid rgba(255,255,255,0.1);">
+                    <div style="text-align:center;">
+                        <div class="avatar" style="width:68px;height:68px;font-size:26px;margin:0 auto 14px;background:#3B82F6;color:#FFF;">SM</div>
+                        <div style="font-weight:700;font-size:16px;">Sophie Moreau (Encadrante)</div>
+                        <div style="font-size:12.5px;color:#94A3B8;">En ligne • Micro activé</div>
+                    </div>
+                    <div style="position:absolute;bottom:14px;right:14px;background:#0F172A;border:1px solid #334155;border-radius:8px;padding:6px 14px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
+                        <span style="width:8px;height:8px;border-radius:50%;background:#10B981;"></span>
+                        Connexion HD sécurisée
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:12px;align-items:center;">
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('Micro coupé', 'warning')">🎤 Muet</button>
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('Caméra activée', 'info')">📹 Caméra</button>
+                    <button class="btn btn-secondary btn-sm" onclick="showToast('Partage d\'écran démarré', 'info')">💻 Partager l'écran</button>
+                    <button class="btn btn-danger btn-sm" onclick="closeModal('modal-visio');showToast('Réunion terminée', 'info');">Quitter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Upload -->
+    <div class="modal-overlay" id="modal-upload">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Déposer un document de stage</h3>
+                <button class="modal-close" onclick="closeModal('modal-upload')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Type de document *</label>
+                    <select class="form-control" id="upload-doc-type">
+                        <option>Rapport intermédiaire de stage</option>
+                        <option>Journal de bord périodique</option>
+                        <option>Attestation Responsabilité Civile</option>
+                        <option>Fiche d'évaluation signée</option>
+                    </select>
+                </div>
+
+                <div style="border:2px dashed #CBD5E1;border-radius:14px;padding:36px;text-align:center;background:#F8FAFC;cursor:pointer;" onclick="document.getElementById('file-input').click()">
+                    <input type="file" id="file-input" style="display:none;" onchange="handleFileSelected(this)">
+                    <div style="font-size:36px;margin-bottom:10px;">📁</div>
+                    <div style="font-weight:700;font-size:14.5px;color:#0F172A;" id="upload-label">Cliquez ou glissez un fichier ici</div>
+                    <div style="font-size:12.5px;color:#64748B;margin-top:6px;">Formats acceptés : PDF, DOCX (max. 10 Mo)</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-upload')">Annuler</button>
+                <button class="btn btn-primary" onclick="closeModal('modal-upload');showToast('Document déposé avec succès !', 'success')">Valider le dépôt</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth();
+        });
+
+        function switchStudentTab(btn) {
+            btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            showToast(`Onglet actif : ${btn.textContent}`, 'info');
+        }
+
+        function openUploadModal() {
+            openModal('modal-upload');
+        }
+
+        function handleFileSelected(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('upload-label').textContent = input.files[0].name;
+            }
+        }
+    </script>
+</body>
+</html>
