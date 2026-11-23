@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Étudiants — Département | StageFlow</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Status badge in table */
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-pill.placed {
+            background: #ECFDF5;
+            color: #059669;
+        }
+        .status-pill.in-progress {
+            background: #FFF7ED;
+            color: #D97706;
+        }
+        .status-pill.searching {
+            background: #FEF2F2;
+            color: #DC2626;
+        }
+        /* Filter toolbar */
+        .students-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 14px 20px;
+        }
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-input-wrap svg {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94A3B8;
+            pointer-events: none;
+        }
+        .search-input-wrap input {
+            width: 100%;
+            padding: 8px 12px 8px 34px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 13.5px;
+            color: #1E293B;
+            background: #F8FAFC;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .search-input-wrap input:focus {
+            border-color: #2563EB;
+            background: #fff;
+        }
+        .status-filter-select {
+            padding: 8px 12px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #1E293B;
+            background: #F8FAFC;
+            cursor: pointer;
+            outline: none;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            background: #fff;
+            color: #1E293B;
+            font-size: 13.5px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        .back-btn:hover {
+            border-color: #2563EB;
+            color: #2563EB;
+            background: #EFF6FF;
+        }
+        .student-count-badge {
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748B;
+            white-space: nowrap;
+        }
+        /* Avatar initials in table */
+        .student-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .student-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .no-results {
+            text-align: center;
+            padding: 48px 24px;
+            color: #94A3B8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="department-supervision.html" class="sidebar-brand">
+                <div class="logo-mark" style="background:linear-gradient(135deg,#1E293B,#334155);">S</div>
+                <div>
+                    <div class="brand-name">StageFlow</div>
+                    <div style="font-size:10px;color:#64748B;font-weight:700;letter-spacing:0.5px;">DÉPARTEMENT INFO</div>
+                </div>
+            </a>
+
+            <div class="sidebar-menu">
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="7" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/><rect x="11" y="11" width="7" height="7" rx="1.5"/></svg>
+                    <span>Tableau de bord</span>
+                </a>
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    <span>Supervision filières</span>
+                </a>
+                <a href="department-students.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>Étudiants</span>
+                </a>
+                <a href="department-supervision.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <span>Partenaires</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-card" onclick="openUserProfileModal()">
+                    <div class="avatar" id="sidebar-avatar" style="background:#E2E8F0;color:#1E293B;">MB</div>
+                    <div class="user-info">
+                        <span class="user-name" id="sidebar-user-name">Pr Marc Boissieu</span>
+                        <span class="user-role" id="sidebar-user-role">Chef de Département</span>
+                    </div>
+                </div>
+                <a class="logout-link" onclick="Auth.logout()">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    Déconnexion
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <main class="view-content">
+
+                <!-- Page Header -->
+                <div class="page-header" style="margin-bottom:24px;">
+                    <div style="display:flex;align-items:center;gap:14px;">
+                        <a href="department-supervision.html" class="back-btn">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>
+                            Retour
+                        </a>
+                        <div>
+                            <h1 class="page-title" id="students-page-title">Étudiants du département</h1>
+                            <p class="page-subtitle" id="students-page-subtitle">Liste des étudiants inscrits</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="exportStudents()">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        Exporter la liste
+                    </button>
+                </div>
+
+                <!-- KPI Summary Strip -->
+                <div class="kpi-grid" id="summary-kpis" style="margin-bottom:24px;"></div>
+
+                <!-- Students Table Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title" id="table-card-title">Liste des étudiants</span>
+                        <span class="student-count-badge" id="student-count-badge">— étudiants</span>
+                    </div>
+                    <div class="card-body" style="padding:0;">
+                        <!-- Toolbar -->
+                        <div class="students-toolbar" style="border-bottom:1px solid #F1F5F9;">
+                            <div class="search-input-wrap">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                                <input type="text" id="search-input" placeholder="Rechercher un étudiant…" oninput="applyFilters()">
+                            </div>
+                            <select class="status-filter-select" id="status-filter" onchange="applyFilters()">
+                                <option value="all">Tous les statuts</option>
+                                <option value="placed">Stage validé</option>
+                                <option value="in-progress">En recherche active</option>
+                                <option value="searching">Sans piste</option>
+                            </select>
+                            <select class="status-filter-select" id="year-filter" onchange="applyFilters()">
+                                <option value="all">Toutes les années</option>
+                                <option value="M2">Master 2</option>
+                                <option value="M1">Master 1</option>
+                            </select>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="data-table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Étudiant</th>
+                                        <th>Année</th>
+                                        <th>Parcours</th>
+                                        <th>Statut stage</th>
+                                        <th>Entreprise / Tuteur</th>
+                                        <th>Dernière activité</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="students-table-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                            <div class="no-results" id="no-results" style="display:none;">
+                                <svg width="40" height="40" fill="none" stroke="#CBD5E1" stroke-width="1.5" viewBox="0 0 24 24" style="margin-bottom:12px;"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                <div>Aucun étudiant ne correspond à votre recherche.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // ----------------------------------------------------------------
+        // Department student data
+        // ----------------------------------------------------------------
+        const ALL_STUDENTS = [
+            // DSI
+            { id: 1, name: 'Amira Benali',       initials: 'AB', dept: 'DSI', year: 'M2', status: 'placed',      company: 'Capgemini',      tutor: 'Dr. Roussel',   lastActivity: 'Hier' },
+            { id: 2, name: 'Karim Hamdi',         initials: 'KH', dept: 'DSI', year: 'M2', status: 'in-progress', company: '—',              tutor: 'Dr. Moreau',    lastActivity: 'Il y a 2j' },
+            { id: 3, name: 'Lina Chérif',         initials: 'LC', dept: 'DSI', year: 'M2', status: 'searching',   company: '—',              tutor: 'Dr. Roussel',   lastActivity: 'Il y a 5j' },
+            { id: 4, name: 'Youssef Daoudi',      initials: 'YD', dept: 'DSI', year: 'M2', status: 'placed',      company: 'Sopra Steria',   tutor: 'Dr. Bernard',   lastActivity: 'Aujourd\'hui' },
+            { id: 5, name: 'Sarah Miled',         initials: 'SM', dept: 'DSI', year: 'M1', status: 'in-progress', company: '—',              tutor: 'Dr. Moreau',    lastActivity: 'Il y a 1j' },
+            { id: 6, name: 'Nassim Bouali',       initials: 'NB', dept: 'DSI', year: 'M2', status: 'searching',   company: '—',              tutor: 'Dr. Roussel',   lastActivity: 'Il y a 7j' },
+            { id: 7, name: 'Rania Ferhat',        initials: 'RF', dept: 'DSI', year: 'M2', status: 'placed',      company: 'CGI France',     tutor: 'Dr. Bernard',   lastActivity: 'Aujourd\'hui' },
+            { id: 8, name: 'Mehdi Tahir',         initials: 'MT', dept: 'DSI', year: 'M2', status: 'searching',   company: '—',              tutor: 'Dr. Roussel',   lastActivity: 'Il y a 10j' },
+            { id: 9, name: 'Imane Kaci',          initials: 'IK', dept: 'DSI', year: 'M1', status: 'in-progress', company: '—',              tutor: 'Dr. Moreau',    lastActivity: 'Hier' },
+            { id:10, name: 'Omar Zerrouki',       initials: 'OZ', dept: 'DSI', year: 'M2', status: 'placed',      company: 'Accenture',      tutor: 'Dr. Bernard',   lastActivity: 'Il y a 2j' },
+            { id:11, name: 'Fatima Zahra Alami',  initials: 'FA', dept: 'DSI', year: 'M2', status: 'searching',   company: '—',              tutor: 'Dr. Roussel',   lastActivity: 'Il y a 6j' },
+            { id:12, name: 'Anas Belhadj',        initials: 'AB', dept: 'DSI', year: 'M2', status: 'placed',      company: 'Thales',         tutor: 'Dr. Moreau',    lastActivity: 'Aujourd\'hui' },
+
+            // RSD
+            { id:13, name: 'Clara Fontaine',      initials: 'CF', dept: 'RSD', year: 'M2', status: 'placed',      company: 'Orange Business', tutor: 'Dr. Lecomte',  lastActivity: 'Hier' },
+            { id:14, name: 'Baptiste Renard',      initials: 'BR', dept: 'RSD', year: 'M2', status: 'in-progress', company: '—',              tutor: 'Dr. Lecomte',   lastActivity: 'Il y a 3j' },
+            { id:15, name: 'Emma Vidal',           initials: 'EV', dept: 'RSD', year: 'M2', status: 'placed',      company: 'Bouygues Telecom',tutor: 'Dr. Ndiaye',   lastActivity: 'Il y a 1j' },
+            { id:16, name: 'Lucas Girard',         initials: 'LG', dept: 'RSD', year: 'M1', status: 'searching',   company: '—',              tutor: 'Dr. Lecomte',   lastActivity: 'Il y a 8j' },
+            { id:17, name: 'Zoé Petit',            initials: 'ZP', dept: 'RSD', year: 'M2', status: 'placed',      company: 'SFR',            tutor: 'Dr. Ndiaye',    lastActivity: 'Aujourd\'hui' },
+            { id:18, name: 'Antoine Moreau',       initials: 'AM', dept: 'RSD', year: 'M2', status: 'in-progress', company: '—',              tutor: 'Dr. Lecomte',   lastActivity: 'Il y a 2j' },
+
+            // CYBER
+            { id:19, name: 'Inès Charbonnier',    initials: 'IC', dept: 'CYBER', year: 'M2', status: 'placed',    company: 'Thales DMS',     tutor: 'Dr. Blanc',     lastActivity: 'Aujourd\'hui' },
+            { id:20, name: 'Maxime Leclerc',       initials: 'ML', dept: 'CYBER', year: 'M2', status: 'placed',    company: 'Airbus Cyber',   tutor: 'Dr. Collin',    lastActivity: 'Hier' },
+            { id:21, name: 'Jade Pichon',          initials: 'JP', dept: 'CYBER', year: 'M2', status: 'searching', company: '—',              tutor: 'Dr. Blanc',     lastActivity: 'Il y a 4j' },
+            { id:22, name: 'Victor Aubert',        initials: 'VA', dept: 'CYBER', year: 'M1', status: 'placed',    company: 'ANSSI partenaire',tutor: 'Dr. Collin',   lastActivity: 'Il y a 1j' },
+            { id:23, name: 'Pauline Roux',         initials: 'PR', dept: 'CYBER', year: 'M2', status: 'in-progress',company: '—',             tutor: 'Dr. Blanc',     lastActivity: 'Hier' },
+
+            // IA
+            { id:24, name: 'Sofiane Mebarki',     initials: 'SM', dept: 'IA', year: 'M2', status: 'placed',       company: 'Mistral AI',     tutor: 'Dr. Tanguy',    lastActivity: 'Aujourd\'hui' },
+            { id:25, name: 'Alice Dupont',         initials: 'AD', dept: 'IA', year: 'M2', status: 'placed',       company: 'Databricks',     tutor: 'Dr. Tanguy',    lastActivity: 'Hier' },
+            { id:26, name: 'Théo Lambert',         initials: 'TL', dept: 'IA', year: 'M2', status: 'in-progress',  company: '—',              tutor: 'Dr. Rousseau',  lastActivity: 'Il y a 2j' },
+            { id:27, name: 'Nina Garnier',         initials: 'NG', dept: 'IA', year: 'M2', status: 'placed',       company: 'Hugging Face',   tutor: 'Dr. Tanguy',    lastActivity: 'Il y a 1j' },
+            { id:28, name: 'Romain Tissot',        initials: 'RT', dept: 'IA', year: 'M1', status: 'searching',    company: '—',              tutor: 'Dr. Rousseau',  lastActivity: 'Il y a 9j' },
+            { id:29, name: 'Camille Arnaud',       initials: 'CA', dept: 'IA', year: 'M2', status: 'placed',       company: 'Nvidia France',  tutor: 'Dr. Tanguy',    lastActivity: 'Aujourd\'hui' },
+        ];
+
+        const DEPT_LABELS = {
+            DSI:   'DSI — Développement & Systèmes d\'Information',
+            RSD:   'Réseaux & Systèmes Distribués',
+            CYBER: 'Cybersécurité & Gouvernance',
+            IA:    'IA & Data Science',
+            all:   'Tous les parcours'
+        };
+
+        const STATUS_LABELS = {
+            placed:      { text: 'Stage validé',       cls: 'placed',      icon: '✓' },
+            'in-progress': { text: 'En recherche',      cls: 'in-progress', icon: '⏳' },
+            searching:   { text: 'Sans piste',          cls: 'searching',   icon: '!' },
+        };
+
+        let currentDept = 'all';
+        let currentFilter = null;
+        let filteredStudents = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            Auth.requireAuth('department');
+            const params = new URLSearchParams(window.location.search);
+            currentDept  = params.get('dept') || 'all';
+            currentFilter = params.get('filter') || null;
+
+            // Set initial status filter from URL
+            if (currentFilter === 'sans-stage') {
+                document.getElementById('status-filter').value = 'searching';
+            }
+
+            updatePageHeader();
+            renderStudents();
+        });
+
+        function updatePageHeader() {
+            const deptLabel = DEPT_LABELS[currentDept] || 'Tous les parcours';
+            document.getElementById('students-page-title').textContent = 'Étudiants — ' + deptLabel;
+            const students = getFilteredByDept();
+            const placed   = students.filter(s => s.status === 'placed').length;
+            const noStage  = students.filter(s => s.status !== 'placed').length;
+            document.getElementById('students-page-subtitle').textContent =
+                `${students.length} étudiants inscrits • ${placed} avec stage • ${noStage} sans stage`;
+
+            // KPI strip
+            const kpiGrid = document.getElementById('summary-kpis');
+            kpiGrid.innerHTML = `
+                <div class="kpi-card">
+                    <div class="kpi-label">Total inscrits</div>
+                    <div class="kpi-value">${students.length}</div>
+                    <div class="kpi-sub">${deptLabel}</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Avec stage <span class="kpi-pill up">${placed > 0 ? Math.round(placed/students.length*100) : 0}%</span></div>
+                    <div class="kpi-value">${placed}</div>
+                    <div class="kpi-sub">conventions enregistrées</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Sans stage <span class="kpi-pill warning">Priorité</span></div>
+                    <div class="kpi-value">${noStage}</div>
+                    <div class="kpi-sub">étudiants à accompagner</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux de placement</div>
+                    <div class="kpi-value">${students.length > 0 ? Math.round(placed/students.length*100) : 0}%</div>
+                    <div class="kpi-sub">Objectif : 95% fin novembre</div>
+                </div>
+            `;
+            document.getElementById('table-card-title').textContent = `Liste des étudiants — ${deptLabel}`;
+        }
+
+        function getFilteredByDept() {
+            if (currentDept === 'all') return ALL_STUDENTS;
+            return ALL_STUDENTS.filter(s => s.dept === currentDept);
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('search-input').value.toLowerCase().trim();
+            const statusF = document.getElementById('status-filter').value;
+            const yearF   = document.getElementById('year-filter').value;
+
+            let list = getFilteredByDept();
+
+            if (search) {
+                list = list.filter(s =>
+                    s.name.toLowerCase().includes(search) ||
+                    (s.company && s.company.toLowerCase().includes(search)) ||
+                    (s.tutor && s.tutor.toLowerCase().includes(search))
+                );
+            }
+            if (statusF !== 'all') {
+                list = list.filter(s => s.status === statusF);
+            }
+            if (yearF !== 'all') {
+                list = list.filter(s => s.year === yearF);
+            }
+
+            filteredStudents = list;
+            renderTable(filteredStudents);
+        }
+
+        function renderStudents() {
+            filteredStudents = getFilteredByDept();
+            // Apply URL filter param if present
+            const statusF = document.getElementById('status-filter').value;
+            if (statusF !== 'all') {
+                filteredStudents = filteredStudents.filter(s => s.status === statusF);
+            }
+            renderTable(filteredStudents);
+        }
+
+        function renderTable(list) {
+            const tbody = document.getElementById('students-table-body');
+            const noResults = document.getElementById('no-results');
+            const badge = document.getElementById('student-count-badge');
+
+            badge.textContent = list.length + ' étudiant' + (list.length > 1 ? 's' : '');
+
+            if (list.length === 0) {
+                tbody.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            noResults.style.display = 'none';
+
+            tbody.innerHTML = list.map(s => {
+                const st = STATUS_LABELS[s.status];
+                const deptLabel = DEPT_LABELS[s.dept] || s.dept;
+                return `
+                <tr>
+                    <td>
+                        <div class="student-name-cell">
+                            <div class="student-avatar">${s.initials}</div>
+                            <span style="font-weight:600;">${s.name}</span>
+                        </div>
+                    </td>
+                    <td><span class="badge badge-blue">${s.year}</span></td>
+                    <td style="font-size:12.5px;color:#64748B;">${deptLabel}</td>
+                    <td>
+                        <span class="status-pill ${st.cls}">
+                            ${st.icon} ${st.text}
+                        </span>
+                    </td>
+                    <td style="font-size:13px;color:#334155;">${s.company !== '—' ? `<strong>${s.company}</strong>` : '<span style="color:#94A3B8;">—</span>'}<br><span style="font-size:12px;color:#94A3B8;">${s.tutor}</span></td>
+                    <td style="font-size:12.5px;color:#64748B;">${s.lastActivity}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <button class="btn btn-sm btn-secondary" onclick="viewStudent(${s.id})">Voir</button>
+                            ${s.status !== 'placed' ? `<button class="btn btn-sm btn-primary" onclick="contactStudent(${s.id})">Contacter</button>` : ''}
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function viewStudent(id) {
+            const s = ALL_STUDENTS.find(x => x.id === id);
+            if (s) showToast(`Fiche de ${s.name} — fonctionnalité à venir`, 'info');
+        }
+
+        function contactStudent(id) {
+            const s = ALL_STUDENTS.find(x => x.id === id);
+            if (s) showToast(`Message envoyé à ${s.name}`, 'success');
+        }
+
+        function exportStudents() {
+            showToast('Export de la liste en cours…', 'info');
+        }
+    </script>
+</body>
+</html>

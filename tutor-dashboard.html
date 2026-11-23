@@ -28,7 +28,6 @@
                 <a href="tutor-dashboard.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     <span>Étudiants encadrés</span>
-                    <span class="nav-badge">8</span>
                 </a>
                 <a href="tutor-dashboard.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -41,7 +40,6 @@
                 <a href="tutor-dashboard.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span>Évaluations</span>
-                    <span class="nav-badge">5</span>
                 </a>
             </div>
 
@@ -63,29 +61,6 @@
         <!-- Main Wrapper -->
         <div class="main-wrapper">
 
-            <!-- App Header -->
-            <header class="app-header">
-                <div class="header-search">
-                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
-                    <span class="shortcut">⌘K</span>
-                </div>
-
-                <div class="header-actions">
-                    <button class="btn btn-sm btn-outline" onclick="triggerExport('suivi-pedagogique')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter
-                    </button>
-                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span class="notification-dot" id="unread-dot"></span>
-                    </button>
-                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    </button>
-                </div>
-            </header>
-
             <!-- Main Content: Tutor Dashboard -->
             <main class="view-content">
                 <div class="page-header">
@@ -93,33 +68,50 @@
                         <h1 class="page-title">Suivi pédagogique</h1>
                         <p class="page-subtitle">Une analyse multi-axes de vos étudiants en stage</p>
                     </div>
-                    <button class="btn btn-primary" onclick="openModal('modal-schedule-meeting')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
-                        + Planifier une réunion
-                    </button>
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <div class="notification-menu">
+                            <button class="action-icon-btn" type="button" aria-label="Notifications" onclick="toggleNotifications()">
+                                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+                                <span class="notification-dot" id="unread-dot" style="display:none;"></span>
+                                <span class="notification-count" id="notification-count"></span>
+                            </button>
+                            <div class="notification-dropdown" id="notification-panel">
+                                <div class="notification-panel-header">
+                                    <strong>Notifications</strong>
+                                    <button type="button" class="notification-clear-btn" onclick="clearAllNotifications()">Tout marquer comme lu</button>
+                                </div>
+                                <div id="notifications-list" aria-live="polite">
+                                    <div class="notification-empty">Chargement…</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" data-schedule-button disabled onclick="openModal('modal-schedule-meeting')">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg>
+                             Planifier une réunion
+                        </button>
+                    </div>
                 </div>
 
                 <!-- KPI Cards -->
-                <div class="kpi-grid">
+                <div class="kpi-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));">
                     <div class="kpi-card">
                         <div class="kpi-label">Stagiaires à suivre</div>
-                        <div class="kpi-value">8</div>
-                        <div class="kpi-sub">4 promotions différentes</div>
+                        <div class="kpi-value" id="tutor-student-count">—</div>
+                        <div class="kpi-sub">Étudiants qui vous sont attribués</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Réunions ce mois</div>
-                        <div class="kpi-value">12</div>
-                        <div class="kpi-sub">8 déjà faites</div>
+                        <div class="kpi-label">Réunions planifiées</div>
+                        <div class="kpi-value" id="tutor-meeting-count">—</div>
+                        <div class="kpi-sub">Avec vos étudiants encadrés</div>
                     </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Évaluations à valider <span class="kpi-pill warning">3 urgentes</span></div>
-                        <div class="kpi-value">5</div>
-                        <div class="kpi-sub">à traiter sous 7 jours</div>
+                </div>
+
+                <div class="card" style="margin-bottom:24px;">
+                    <div class="card-header">
+                        <span class="card-title">Demandes d’encadrement à traiter</span>
                     </div>
-                    <div class="kpi-card">
-                        <div class="kpi-label">Évaluations à venir</div>
-                        <div class="kpi-value">3</div>
-                        <div class="kpi-sub">jalon mi-parcours</div>
+                    <div class="card-body" id="supervision-requests-list">
+                        <div class="notification-empty">Aucune demande en attente.</div>
                     </div>
                 </div>
 
@@ -127,11 +119,7 @@
                     <!-- Left: Stages Table -->
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-title">Stages à suivre</span>
-                            <div style="display:flex;gap:10px;">
-                                <button class="btn btn-sm btn-outline" onclick="showToast('Affichage de tous les stagiaires', 'info')">Tous</button>
-                                <button class="btn btn-sm btn-outline" onclick="showToast('Filtre : Stagiaires en alerte', 'warning')">Urgents</button>
-                            </div>
+                            <span class="card-title">Étudiants encadrés</span>
                         </div>
                         <div class="card-body" style="padding:0;">
                             <div class="data-table-container">
@@ -139,86 +127,13 @@
                                     <thead>
                                         <tr>
                                             <th>Étudiant</th>
-                                            <th>Entreprise</th>
-                                            <th>Progression</th>
-                                            <th>Prochain Jalon</th>
-                                            <th>Statut</th>
+                                            <th>Encadré par</th>
+                                            <th>Stage / entreprise</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <div style="font-weight:700;">Clara Martin</div>
-                                                <div style="font-size:11.5px;color:#64748B;">Data analyst</div>
-                                            </td>
-                                            <td>NovoOps</td>
-                                            <td>
-                                                <div style="display:flex;align-items:center;gap:8px;">
-                                                    <div class="progress-bar-container" style="width:75px;">
-                                                        <div class="progress-bar-fill" style="width:52%;"></div>
-                                                    </div>
-                                                    <span style="font-size:11.5px;font-weight:600;">52%</span>
-                                                </div>
-                                            </td>
-                                            <td>Rapport - 22 oct.</td>
-                                            <td><span class="badge badge-yellow">À valider</span></td>
-                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Clara Martin', 'NovoOps')">Suivre</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="font-weight:700;">Tariq Sengé</div>
-                                                <div style="font-size:11.5px;color:#64748B;">IA - Énergie</div>
-                                            </td>
-                                            <td>GreenPulse</td>
-                                            <td>
-                                                <div style="display:flex;align-items:center;gap:8px;">
-                                                    <div class="progress-bar-container" style="width:75px;">
-                                                        <div class="progress-bar-fill" style="width:38%;"></div>
-                                                    </div>
-                                                    <span style="font-size:11.5px;font-weight:600;">38%</span>
-                                                </div>
-                                            </td>
-                                            <td>Évaluation - 25 oct.</td>
-                                            <td><span class="badge badge-blue">En cours</span></td>
-                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Tariq Sengé', 'GreenPulse')">Suivre</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="font-weight:700;">Léa Dubois</div>
-                                                <div style="font-size:11.5px;color:#64748B;">UX - Services pub</div>
-                                            </td>
-                                            <td>UrbanLab</td>
-                                            <td>
-                                                <div style="display:flex;align-items:center;gap:8px;">
-                                                    <div class="progress-bar-container" style="width:75px;">
-                                                        <div class="progress-bar-fill" style="width:81%;"></div>
-                                                    </div>
-                                                    <span style="font-size:11.5px;font-weight:600;">81%</span>
-                                                </div>
-                                            </td>
-                                            <td>Réunion - 18 oct.</td>
-                                            <td><span class="badge badge-green">Conforme</span></td>
-                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Léa Dubois', 'UrbanLab')">Suivre</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div style="font-weight:700;">Hugo Petit</div>
-                                                <div style="font-size:11.5px;color:#64748B;">Audit cybersécurité</div>
-                                            </td>
-                                            <td>Lumen Conseil</td>
-                                            <td>
-                                                <div style="display:flex;align-items:center;gap:8px;">
-                                                    <div class="progress-bar-container" style="width:75px;">
-                                                        <div class="progress-bar-fill" style="width:64%;"></div>
-                                                    </div>
-                                                    <span style="font-size:11.5px;font-weight:600;">64%</span>
-                                                </div>
-                                            </td>
-                                            <td>Journal - 29 oct.</td>
-                                            <td><span class="badge badge-green">Conforme</span></td>
-                                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal('Hugo Petit', 'Lumen Conseil')">Suivre</button></td>
-                                        </tr>
+                                    <tbody id="tutor-students-tbody">
+                                        <tr><td colspan="4" class="notification-empty">Chargement des étudiants encadrés…</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -230,58 +145,21 @@
                         <!-- Agenda Aujourd'hui -->
                         <div class="card">
                             <div class="card-header">
-                                <span class="card-title">Aujourd'hui</span>
-                                <span class="badge badge-blue">3 réunions</span>
+                                <span class="card-title">Réunions planifiées</span>
+                                <span class="badge badge-blue" id="tutor-meeting-badge">—</span>
                             </div>
                             <div class="card-body">
-                                <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
-                                    <div style="display:flex;gap:12px;font-size:13px;">
-                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">10h00</span>
-                                        <div>
-                                            <div style="font-weight:600;color:#0F172A;">Point Clara Martin</div>
-                                            <div style="font-size:11.5px;color:#64748B;">NovoOps • Visioconférence</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;gap:12px;font-size:13px;">
-                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">14h00</span>
-                                        <div>
-                                            <div style="font-weight:600;color:#0F172A;">Relecture intermédiaire</div>
-                                            <div style="font-size:11.5px;color:#64748B;">GreenPulse • En ligne</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;gap:12px;font-size:13px;">
-                                        <span style="font-weight:700;color:#2563EB;min-width:46px;">16h30</span>
-                                        <div>
-                                            <div style="font-weight:600;color:#0F172A;">Entretien Hugo Petit</div>
-                                            <div style="font-size:11.5px;color:#64748B;">Lumen Conseil • Bureau B204</div>
-                                        </div>
-                                    </div>
+                                <div id="tutor-meetings-list" style="display:flex;flex-direction:column;gap:14px;margin-bottom:16px;">
+                                    <div class="notification-empty">Aucune réunion planifiée.</div>
                                 </div>
-                                <button class="btn btn-outline btn-sm" style="width:100%;" onclick="openModal('modal-schedule-meeting')">+ Planifier une réunion</button>
+                                <button class="btn btn-outline btn-sm" style="width:100%;" data-schedule-button disabled onclick="openModal('modal-schedule-meeting')">+ Planifier une réunion</button>
                             </div>
                         </div>
 
                         <!-- Progression du groupe -->
                         <div class="card">
-                            <div class="card-header">
-                                <span class="card-title">Progression du groupe</span>
-                                <span class="badge badge-green">71% global</span>
-                            </div>
                             <div class="card-body">
-                                <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:10px;">
-                                    <span>Démarrage (1)</span>
-                                    <span>Mi-parcours (5)</span>
-                                    <span>Finalisation (2)</span>
-                                </div>
-                                <div style="display:flex;height:8px;border-radius:999px;overflow:hidden;gap:3px;margin-bottom:16px;">
-                                    <div style="flex:1;background:#93C5FD;" title="Démarrage: 1"></div>
-                                    <div style="flex:5;background:#2563EB;" title="Mi-parcours: 5"></div>
-                                    <div style="flex:2;background:#10B981;" title="Finalisation: 2"></div>
-                                </div>
-                                <div style="font-size:12px;color:#64748B;line-height:1.5;">
-                                    • Aucun étudiant en alerte critique cette semaine.<br>
-                                    • Prochaine vague de soutenances : début juillet.
-                                </div>
+                                <div class="notification-empty">Les évaluations apparaîtront ici lorsqu’elles seront enregistrées.</div>
                             </div>
                         </div>
                     </div>
@@ -302,33 +180,30 @@
                 <form onsubmit="handleScheduleMeetingSubmit(event)">
                     <div class="form-group">
                         <label class="form-label">Étudiant concerné *</label>
-                        <select class="form-control" required id="schedule-student-select">
-                            <option>Clara Martin (NovoOps)</option>
-                            <option>Tariq Sengé (GreenPulse)</option>
-                            <option>Léa Dubois (UrbanLab)</option>
-                            <option>Hugo Petit (Lumen Conseil)</option>
+                        <select class="form-control" required id="schedule-student-select" disabled>
+                            <option value="">Chargement des étudiants encadrés…</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Objet de la réunion *</label>
-                        <input type="text" class="form-control" value="Point de cadrage & relecture mi-parcours" required>
+                        <input type="text" class="form-control" id="schedule-title" required>
                     </div>
 
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="form-label">Date *</label>
-                            <input type="date" class="form-control" value="2025-10-25" required>
+                            <input type="date" class="form-control" id="schedule-date" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Heure *</label>
-                            <input type="time" class="form-control" value="14:30" required>
+                            <input type="time" class="form-control" id="schedule-time" value="14:30" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Format</label>
-                        <select class="form-control">
+                        <select class="form-control" id="schedule-format">
                             <option>Visioconférence StageFlow Meet</option>
                             <option>Présentiel — Bureau Enseignant</option>
                             <option>Visite en entreprise</option>
@@ -337,9 +212,24 @@
 
                     <div class="modal-footer" style="padding:18px 0 0;background:none;border-top:none;">
                         <button type="button" class="btn btn-secondary" onclick="closeModal('modal-schedule-meeting')">Annuler</button>
-                        <button type="submit" class="btn btn-primary">Envoyer l'invitation</button>
+                        <button type="submit" class="btn btn-primary" id="schedule-submit-button" disabled>Envoyer l'invitation</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-student-dossier">
+        <div class="modal-card" style="max-width:860px;">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title" id="student-dossier-title">Dossier étudiant</h3>
+                    <div id="student-dossier-email" style="font-size:12px;color:#64748B;"></div>
+                </div>
+                <button class="modal-close" onclick="closeModal('modal-student-dossier')">&times;</button>
+            </div>
+            <div class="modal-body" id="student-dossier-content">
+                <div class="notification-empty">Chargement du dossier…</div>
             </div>
         </div>
     </div>
@@ -352,17 +242,206 @@
     <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            Auth.requireAuth();
+            Auth.requireAuth('tutor');
+            loadTutorDashboard();
+            loadNotifications();
+            setInterval(loadNotifications, 30000);
         });
 
-        function openStudentFollowModal(name, company) {
-            showToast(`Dossier de suivi de ${name} chez ${company} ouvert`, 'info');
+        async function loadTutorDashboard() {
+            try {
+                const data = await Database.getTutorStudents();
+                renderSupervisionRequests(data.supervisionRequests || []);
+                const tbody = document.getElementById('tutor-students-tbody');
+                if (data.students.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="padding:24px;color:#64748B;text-align:center;">Aucun étudiant ne vous est attribué pour le moment.</td></tr>';
+                } else {
+                    const applicationsByStudent = new Map(data.applications.map(application =>
+                        [application.student_id, application]
+                    ));
+                    tbody.innerHTML = data.students.map(student => {
+                        const application = applicationsByStudent.get(student.id);
+                        return `
+                        <tr>
+                            <td>
+                                <div style="font-weight:700;">${escapeTutorText(student.name)}</div>
+                                <div style="font-size:11.5px;color:#64748B;">${escapeTutorText(student.email)}</div>
+                            </td>
+                            <td>${escapeTutorText(student.supervisor_name)}</td>
+                            <td>${application
+                                ? `${escapeTutorText(application.title)} — ${escapeTutorText(application.company_name)}`
+                                : 'Aucun stage accepté'}</td>
+                            <td><button class="btn btn-sm btn-primary" onclick="openStudentFollowModal(${student.id})">Suivre</button></td>
+                        </tr>
+                    `;
+                    }).join('');
+                }
+
+                function renderSupervisionRequests(requests) {
+                    const container = document.getElementById('supervision-requests-list');
+                    if (!requests.length) {
+                        container.innerHTML = '<div class="notification-empty">Aucune demande en attente.</div>';
+                        return;
+                    }
+                    container.innerHTML = requests.map(request => `
+                        <div class="document-row">
+                            <div>
+                                <div style="font-weight:700;">${escapeTutorText(request.student_name)}</div>
+                                <div style="font-size:12px;color:#64748B;">${escapeTutorText(request.student_email)}</div>
+                            </div>
+                            <div style="display:flex;gap:8px;">
+                                <button class="btn btn-primary btn-sm" onclick="decideSupervisionRequest(${request.id}, 'accepted')">Accepter</button>
+                                <button class="btn btn-outline btn-sm" onclick="decideSupervisionRequest(${request.id}, 'rejected')">Refuser</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                const select = document.getElementById('schedule-student-select');
+                select.innerHTML = data.students.length
+                    ? '<option value="">Choisir un étudiant encadré</option>' + data.students.map(student =>
+                        `<option value="${student.id}">${escapeTutorText(student.name)} — ${escapeTutorText(student.email)}</option>`
+                    ).join('')
+                    : '<option value="">Aucun étudiant encadré par vous</option>';
+                select.disabled = data.students.length === 0;
+                document.getElementById('schedule-submit-button').disabled = data.students.length === 0;
+                document.querySelectorAll('[data-schedule-button]').forEach(button => {
+                    button.disabled = data.students.length === 0;
+                    button.title = data.students.length ? '' : 'Aucun étudiant ne vous est attribué.';
+                });
+
+                document.getElementById('tutor-student-count').textContent = data.students.length;
+                document.getElementById('tutor-meeting-count').textContent = data.meetings.length;
+                document.getElementById('tutor-meeting-badge').textContent =
+                    `${data.meetings.length} réunion${data.meetings.length > 1 ? 's' : ''}`;
+                const meetingsList = document.getElementById('tutor-meetings-list');
+                meetingsList.innerHTML = data.meetings.length
+                    ? data.meetings.map(meeting => `
+                        <div style="display:flex;gap:12px;font-size:13px;">
+                            <span style="font-weight:700;color:#2563EB;min-width:80px;">${escapeTutorText(meeting.meeting_date)} ${escapeTutorText(meeting.meeting_time)}</span>
+                            <div>
+                                <div style="font-weight:600;color:#0F172A;">${escapeTutorText(meeting.title)}</div>
+                                <div style="font-size:11.5px;color:#64748B;">${escapeTutorText(meeting.student_name)} • ${escapeTutorText(meeting.format)}</div>
+                            </div>
+                        </div>
+                    `).join('')
+                    : '<div class="notification-empty">Aucune réunion planifiée avec vos étudiants encadrés.</div>';
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
         }
 
-        function handleScheduleMeetingSubmit(e) {
+        function escapeTutorText(value) {
+            return String(value || '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[character]);
+        }
+
+        async function openStudentFollowModal(studentId) {
+            const title = document.getElementById('student-dossier-title');
+            const email = document.getElementById('student-dossier-email');
+            const content = document.getElementById('student-dossier-content');
+            title.textContent = 'Dossier étudiant';
+            email.textContent = '';
+            content.innerHTML = '<div class="notification-empty">Chargement du dossier…</div>';
+            openModal('modal-student-dossier');
+            try {
+                const dossier = await Database.getTutorStudent(studentId);
+                title.textContent = dossier.student.name;
+                email.textContent = dossier.student.email;
+                const applicationStatusLabels = {
+                    pending: 'En attente',
+                    accepted: 'Acceptée',
+                    rejected: 'Refusée'
+                };
+                const meetingStatusLabels = {
+                    scheduled: 'Planifiée',
+                    completed: 'Terminée'
+                };
+                const applications = dossier.applications.length
+                    ? dossier.applications.map(application => `
+                        <div class="document-row">
+                            <div>
+                                <div style="font-weight:600;">${escapeTutorText(application.title)} — ${escapeTutorText(application.company_name)}</div>
+                                <div style="font-size:12px;color:#64748B;">${escapeTutorText(application.domain)} • ${escapeTutorText(application.city)} • Début : ${escapeTutorText(application.start_date)} • ${application.duration_months} mois</div>
+                                ${application.cover_letter ? `<div style="font-size:12px;color:#64748B;margin-top:4px;">${escapeTutorText(application.cover_letter)}</div>` : ''}
+                            </div>
+                            <span class="badge ${application.status === 'accepted' ? 'badge-green' : application.status === 'rejected' ? 'badge-red' : 'badge-blue'}">${escapeTutorText(applicationStatusLabels[application.status] || application.status)}</span>
+                        </div>
+                    `).join('')
+                    : '<div class="notification-empty">Aucune candidature enregistrée.</div>';
+                const documents = dossier.documents.length
+                    ? dossier.documents.map(document => `
+                        <div class="document-row">
+                            <div>
+                                <div style="font-weight:600;">${escapeTutorText(document.filename)}</div>
+                                <div style="font-size:12px;color:#64748B;">${escapeTutorText(document.document_type)} • ${formatTutorDocumentSize(document.size)} • ${escapeTutorText(document.created_at)}</div>
+                            </div>
+                            <a class="btn btn-sm btn-outline" href="/api/student/documents/${document.id}/download">Télécharger</a>
+                        </div>
+                    `).join('')
+                    : '<div class="notification-empty">Aucun document déposé.</div>';
+                const meetings = dossier.meetings.length
+                    ? dossier.meetings.map(meeting => `
+                        <div class="document-row">
+                            <div>
+                                <div style="font-weight:600;">${escapeTutorText(meeting.title)}</div>
+                                <div style="font-size:12px;color:#64748B;">${escapeTutorText(meeting.meeting_date)} • ${escapeTutorText(meeting.meeting_time)} • ${escapeTutorText(meeting.format)}</div>
+                            </div>
+                            <span class="badge badge-blue">${escapeTutorText(meetingStatusLabels[meeting.status] || meeting.status)}</span>
+                        </div>
+                    `).join('')
+                    : '<div class="notification-empty">Aucune réunion planifiée.</div>';
+                content.innerHTML = `
+                    <div style="margin-bottom:20px;">
+                        <strong>Encadré par :</strong> ${escapeTutorText(dossier.student.supervisor_name)}
+                    </div>
+                    <section style="margin-bottom:20px;">
+                        <h4 style="margin-bottom:8px;">Candidatures (${dossier.applications.length})</h4>
+                        ${applications}
+                    </section>
+                    <section style="margin-bottom:20px;">
+                        <h4 style="margin-bottom:8px;">Documents et dossiers (${dossier.documents.length})</h4>
+                        ${documents}
+                    </section>
+                    <section>
+                        <h4 style="margin-bottom:8px;">Réunions (${dossier.meetings.length})</h4>
+                        ${meetings}
+                    </section>
+                `;
+            } catch (error) {
+                content.innerHTML = `<div class="notification-empty">${escapeTutorText(error.message)}</div>`;
+                showToast(`Impossible de charger ce dossier : ${error.message}`, 'danger');
+            }
+        }
+
+        function formatTutorDocumentSize(size) {
+            return size < 1024 * 1024
+                ? `${Math.max(1, Math.round(size / 1024))} Ko`
+                : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
+        }
+
+        async function handleScheduleMeetingSubmit(e) {
             e.preventDefault();
-            closeModal('modal-schedule-meeting');
-            showToast('Invitation de réunion envoyée à l\'étudiant et au tuteur !', 'success');
+            const studentId = Number(document.getElementById('schedule-student-select').value);
+            if (!studentId) {
+                showToast('Aucun étudiant enregistré n’est disponible.', 'danger');
+                return;
+            }
+            try {
+                await Database.createMeeting({
+                    studentId,
+                    title: document.getElementById('schedule-title').value,
+                    date: document.getElementById('schedule-date').value,
+                    time: document.getElementById('schedule-time').value,
+                    format: document.getElementById('schedule-format').value
+                });
+                closeModal('modal-schedule-meeting');
+                showToast('Invitation de réunion enregistrée.', 'success');
+                loadTutorDashboard();
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
         }
     </script>
 </body>

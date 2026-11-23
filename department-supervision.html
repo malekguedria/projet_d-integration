@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -57,34 +57,11 @@
         <!-- Main Wrapper -->
         <div class="main-wrapper">
 
-            <!-- App Header -->
-            <header class="app-header">
-                <div class="header-search">
-                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
-                    <span class="shortcut">⌘K</span>
-                </div>
-
-                <div class="header-actions">
-                    <button class="btn btn-sm btn-outline" onclick="triggerExport('rapport-departement')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter
-                    </button>
-                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span class="notification-dot" id="unread-dot"></span>
-                    </button>
-                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    </button>
-                </div>
-            </header>
-
             <!-- Main Content: Department Supervision -->
             <main class="view-content">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Département Informatique</h1>
+                        <h1 class="page-title" id="dept-page-title">Département Informatique</h1>
                         <p class="page-subtitle">Supervision des parcours et campagnes de stage 2024-2025</p>
                     </div>
                     <button class="btn btn-primary" onclick="triggerExport('dept-report')">
@@ -93,27 +70,47 @@
                     </button>
                 </div>
 
+                <!-- Department Filter Bar -->
+                <div class="card" style="margin-bottom:24px;padding:0;">
+                    <div class="card-body" style="padding:16px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                        <svg width="18" height="18" fill="none" stroke="#2563EB" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/></svg>
+                        <span style="font-weight:600;font-size:14px;color:#1E293B;white-space:nowrap;">Filtrer par département :</span>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;flex:1;">
+                            <button class="dept-filter-btn active" data-dept="all" onclick="filterByDept(this)">Tous les parcours</button>
+                            <button class="dept-filter-btn" data-dept="DSI" onclick="filterByDept(this)">DSI</button>
+                            <button class="dept-filter-btn" data-dept="RSD" onclick="filterByDept(this)">Réseaux &amp; Systèmes</button>
+                            <button class="dept-filter-btn" data-dept="CYBER" onclick="filterByDept(this)">Cybersécurité</button>
+                            <button class="dept-filter-btn" data-dept="IA" onclick="filterByDept(this)">IA &amp; Data Science</button>
+                        </div>
+                        <select id="dept-year-filter" style="padding:7px 12px;border:1px solid #E2E8F0;border-radius:8px;font-size:13px;color:#1E293B;background:#F8FAFC;cursor:pointer;" onchange="onYearChange(this)">
+                            <option value="2024-2025">2024-2025</option>
+                            <option value="2023-2024">2023-2024</option>
+                            <option value="2022-2023">2022-2023</option>
+                        </select>
+                    </div>
+                </div>
+
                 <!-- KPI Cards -->
-                <div class="kpi-grid">
+                <div class="kpi-grid" id="kpi-grid">
                     <div class="kpi-card">
                         <div class="kpi-label">Étudiants inscrits</div>
-                        <div class="kpi-value">126</div>
+                        <div class="kpi-value" id="kpi-inscrits">261</div>
                         <div class="kpi-sub">100% des effectifs Master</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Stages validés <span class="kpi-pill up">65% placés</span></div>
-                        <div class="kpi-value">82</div>
+                        <div class="kpi-value" id="kpi-stages">186</div>
                         <div class="kpi-sub">conventions enregistrées</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Entretiens & pistes <span class="kpi-pill warning">Actif</span></div>
-                        <div class="kpi-value">9</div>
+                        <div class="kpi-value" id="kpi-entretiens">9</div>
                         <div class="kpi-sub">signalements sous surveillance</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Taux de placement</div>
-                        <div class="kpi-value">76%</div>
-                        <div class="kpi-sub">Objectif : 95% fin novembre</div>
+                        <div class="kpi-value" id="kpi-taux">71,3%</div>
+                        <div class="kpi-sub" id="kpi-taux-label">Objectif : 95% fin novembre</div>
                     </div>
                 </div>
 
@@ -133,8 +130,8 @@
                         <div style="font-size:12.5px;color:#B45309;">Effectif total : 99 | Avec stage : 55 | Sans stage : 44 | Action requise avant le 1er décembre</div>
                     </div>
                     <div style="display:flex;gap:10px;">
-                        <button class="btn btn-sm btn-primary" onclick="openModal('modal-cohort-analysis')">Analyser les 44 étudiants</button>
-                        <button class="btn btn-sm btn-secondary" onclick="openModal('modal-cohort-analysis')">Voir les motifs</button>
+                        <button class="btn btn-sm btn-primary" onclick="goToStudents('DSI')">Analyser les 44 étudiants</button>
+                        <button class="btn btn-sm btn-secondary" onclick="goToStudents('DSI', 'sans-stage')">Voir les motifs</button>
                     </div>
                 </div>
 
@@ -157,40 +154,40 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr style="background:#FFFBEB;">
+                                <tbody id="dept-table-body">
+                                    <tr style="background:#FFFBEB;" data-dept="DSI">
                                         <td><strong>DSI (Développement & Systèmes d'Information)</strong></td>
                                         <td>99</td>
                                         <td>55</td>
                                         <td><span class="badge badge-red">44</span></td>
                                         <td><strong>55,6%</strong></td>
-                                        <td><button class="btn btn-sm btn-primary" onclick="openModal('modal-cohort-analysis')">Analyser</button></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="goToStudents('DSI')">Analyser</button></td>
                                     </tr>
-                                    <tr>
+                                    <tr data-dept="RSD">
                                         <td><strong>Réseaux & Systèmes Distribués</strong></td>
                                         <td>48</td>
                                         <td>36</td>
                                         <td>12</td>
                                         <td><strong>75,0%</strong></td>
-                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours Réseaux', 'info')">Voir</button></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="goToStudents('RSD')">Analyser</button></td>
                                     </tr>
-                                    <tr>
+                                    <tr data-dept="CYBER">
                                         <td><strong>Cybersécurité & Gouvernance</strong></td>
                                         <td>42</td>
                                         <td>34</td>
                                         <td>8</td>
                                         <td><strong>81,0%</strong></td>
-                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours Cyber', 'info')">Voir</button></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="goToStudents('CYBER')">Analyser</button></td>
                                     </tr>
-                                    <tr>
+                                    <tr data-dept="IA">
                                         <td><strong>Intelligence Artificielle & Data Science</strong></td>
                                         <td>72</td>
                                         <td>61</td>
                                         <td>11</td>
                                         <td><strong>84,7%</strong></td>
-                                        <td><button class="btn btn-sm btn-secondary" onclick="showToast('Détail du parcours IA', 'info')">Voir</button></td>
+                                        <td><button class="btn btn-sm btn-primary" onclick="goToStudents('IA')">Analyser</button></td>
                                     </tr>
-                                    <tr style="background:#F8FAFC;font-weight:700;">
+                                    <tr style="background:#F8FAFC;font-weight:700;" id="dept-total-row">
                                         <td>Total Master Informatique</td>
                                         <td>261</td>
                                         <td>186</td>
@@ -327,8 +324,43 @@
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
     <script>
+        // --- Department data ---
+        const DEPT_DATA = {
+            all: {
+                label: 'Département Informatique',
+                inscrits: 261, avecStage: 186, sansStage: 75,
+                tauxPlacement: '71,3%', tauxLabel: 'Objectif : 95% fin novembre',
+                stagesValides: 186, entretiens: 9
+            },
+            DSI: {
+                label: 'DSI — Développement & Systèmes d\'Information',
+                inscrits: 99, avecStage: 55, sansStage: 44,
+                tauxPlacement: '55,6%', tauxLabel: 'Objectif : 95% fin novembre',
+                stagesValides: 55, entretiens: 4
+            },
+            RSD: {
+                label: 'Réseaux & Systèmes Distribués',
+                inscrits: 48, avecStage: 36, sansStage: 12,
+                tauxPlacement: '75,0%', tauxLabel: 'Objectif : 95% fin novembre',
+                stagesValides: 36, entretiens: 3
+            },
+            CYBER: {
+                label: 'Cybersécurité & Gouvernance',
+                inscrits: 42, avecStage: 34, sansStage: 8,
+                tauxPlacement: '81,0%', tauxLabel: 'Objectif : 95% fin novembre',
+                stagesValides: 34, entretiens: 1
+            },
+            IA: {
+                label: 'IA & Data Science',
+                inscrits: 72, avecStage: 61, sansStage: 11,
+                tauxPlacement: '84,7%', tauxLabel: 'Objectif : 95% fin novembre',
+                stagesValides: 61, entretiens: 1
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
-            Auth.requireAuth();
+            Auth.requireAuth('department');
+            updateKPIs('all');
         });
 
         function switchDeptTab(btn) {
@@ -336,6 +368,46 @@
             btn.classList.add('active');
             showToast(`Onglet actif : ${btn.textContent}`, 'info');
         }
+
+        function filterByDept(btn) {
+            document.querySelectorAll('.dept-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const dept = btn.dataset.dept;
+            updateKPIs(dept);
+            // Filter table rows
+            const rows = document.querySelectorAll('#dept-table-body tr[data-dept]');
+            rows.forEach(row => {
+                if (dept === 'all' || row.dataset.dept === dept) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            // Show/hide total row
+            const totalRow = document.getElementById('dept-total-row');
+            if (totalRow) totalRow.style.display = dept === 'all' ? '' : 'none';
+        }
+
+        function updateKPIs(dept) {
+            const d = DEPT_DATA[dept] || DEPT_DATA.all;
+            document.getElementById('dept-page-title').textContent = d.label;
+            document.getElementById('kpi-inscrits').textContent = d.inscrits;
+            document.getElementById('kpi-stages').textContent = d.stagesValides;
+            document.getElementById('kpi-entretiens').textContent = d.entretiens;
+            document.getElementById('kpi-taux').textContent = d.tauxPlacement;
+            document.getElementById('kpi-taux-label').textContent = d.tauxLabel;
+        }
+
+        function onYearChange(sel) {
+            showToast(`Année sélectionnée : ${sel.value}`, 'info');
+        }
+
+        function goToStudents(dept, filter) {
+            let url = `department-students.html?dept=${encodeURIComponent(dept)}`;
+            if (filter) url += `&filter=${encodeURIComponent(filter)}`;
+            window.location.href = url;
+        }
     </script>
 </body>
 </html>
+

@@ -67,29 +67,6 @@
         <!-- Main Wrapper -->
         <div class="main-wrapper">
 
-            <!-- App Header -->
-            <header class="app-header">
-                <div class="header-search">
-                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
-                    <span class="shortcut">⌘K</span>
-                </div>
-
-                <div class="header-actions">
-                    <button class="btn btn-sm btn-outline" onclick="triggerExport('recap-etudiant')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter
-                    </button>
-                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span class="notification-dot" id="unread-dot"></span>
-                    </button>
-                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    </button>
-                </div>
-            </header>
-
             <!-- Main Content: Student Dashboard -->
             <main class="view-content">
                 <div class="page-header">
@@ -97,17 +74,29 @@
                         <h1 class="page-title">Tableau de bord étudiant</h1>
                         <p class="page-subtitle">Suivi du parcours, documents et réunions de stage</p>
                     </div>
-                    <button class="btn btn-primary" onclick="triggerExport('student-recap')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter le récap
-                    </button>
+                    <div class="notification-menu">
+                        <button class="action-icon-btn" type="button" aria-label="Notifications" onclick="toggleNotifications()">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+                            <span class="notification-dot" id="unread-dot" style="display:none;"></span>
+                            <span class="notification-count" id="notification-count"></span>
+                        </button>
+                        <div class="notification-dropdown" id="notification-panel">
+                            <div class="notification-panel-header">
+                                <strong>Notifications</strong>
+                                <button type="button" class="notification-clear-btn" onclick="clearAllNotifications()">Tout marquer comme lu</button>
+                            </div>
+                            <div id="notifications-list" aria-live="polite">
+                                <div class="notification-empty">Chargement…</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Workflow Stepper Full -->
                 <div class="card" style="margin-bottom:32px;">
                     <div class="card-header">
                         <span class="card-title">Workflow complet</span>
-                        <span class="badge badge-blue">Étape 4 / 7 — En cours</span>
+                        <span class="badge badge-blue" id="student-workflow-status">Étape 4 / 7 — En cours</span>
                     </div>
                     <div class="card-body">
                         <div class="workflow-stepper">
@@ -150,8 +139,8 @@
                 <div class="tabs-header">
                     <button class="tab-btn active" onclick="switchStudentTab(this)">Vue d'ensemble</button>
                     <button class="tab-btn" onclick="switchStudentTab(this)">Dossier & convention</button>
-                    <button class="tab-btn" onclick="switchStudentTab(this)">Documents (4)</button>
-                    <button class="tab-btn" onclick="switchStudentTab(this)">Réunions (2)</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Documents</button>
+                    <button class="tab-btn" onclick="switchStudentTab(this)">Réunions</button>
                     <button class="tab-btn" onclick="switchStudentTab(this)">Évaluation</button>
                 </div>
 
@@ -159,56 +148,7 @@
                 <div class="grid-7-5">
                     <!-- Left: Current Stage Card & Documents -->
                     <div style="display:flex;flex-direction:column;gap:24px;">
-                        <!-- Current Stage Card -->
-                        <div class="card">
-                            <div class="card-header">
-                                <div>
-                                    <span class="card-title">Stage chez NovoOps</span>
-                                    <div style="font-size:12.5px;color:#64748B;margin-top:2px;">Période : 15 fév - 31 juil 2025</div>
-                                </div>
-                                <span class="badge badge-yellow">52% effectué</span>
-                            </div>
-                            <div class="card-body">
-                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;font-weight:600;">
-                                    <span>Progression globale du stage</span>
-                                    <span>52%</span>
-                                </div>
-                                <div class="progress-bar-container" style="margin-bottom:18px;">
-                                    <div class="progress-bar-fill" style="width:52%;"></div>
-                                </div>
 
-                                <ul class="check-list">
-                                    <li class="check-item">
-                                        <div style="display:flex;align-items:center;">
-                                            <span class="check-indicator ok">✓</span>
-                                            <span>Fiche de poste & cadrage</span>
-                                        </div>
-                                        <span class="badge badge-green">Validé</span>
-                                    </li>
-                                    <li class="check-item">
-                                        <div style="display:flex;align-items:center;">
-                                            <span class="check-indicator pending">!</span>
-                                            <span>Analyse mi-parcours</span>
-                                        </div>
-                                        <span class="badge badge-yellow">En cours</span>
-                                    </li>
-                                    <li class="check-item">
-                                        <div style="display:flex;align-items:center;">
-                                            <span class="check-indicator" style="background:#F1F5F9;color:#64748B;">•</span>
-                                            <span>Soutenance à blanc</span>
-                                        </div>
-                                        <span class="badge badge-gray">À venir</span>
-                                    </li>
-                                    <li class="check-item">
-                                        <div style="display:flex;align-items:center;">
-                                            <span class="check-indicator pending">!</span>
-                                            <span>Évaluation intermédiaire tuteur</span>
-                                        </div>
-                                        <span class="badge badge-yellow">En cours</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
                         <!-- Documents Card -->
                         <div class="card">
@@ -220,57 +160,8 @@
                                 </button>
                             </div>
                             <div class="card-body" style="padding:0;">
-                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <span style="font-size:18px;">📄</span>
-                                        <div>
-                                            <div style="font-weight:600;">Convention_signée_NovoOps.pdf</div>
-                                            <div style="font-size:11.5px;color:#64748B;">Signé le 12/02/2025 • 1.2 Mo</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span class="badge badge-green">Validé</span>
-                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Convention_signée_NovoOps.pdf', 'info')">↓</button>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <span style="font-size:18px;">📄</span>
-                                        <div>
-                                            <div style="font-weight:600;">Attestation_assurance_RC.pdf</div>
-                                            <div style="font-size:11.5px;color:#64748B;">Déposé le 10/02/2025 • 420 Ko</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span class="badge badge-green">Validé</span>
-                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Attestation_assurance_RC.pdf', 'info')">↓</button>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid #F1F5F9;font-size:13.5px;">
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <span style="font-size:18px;">📄</span>
-                                        <div>
-                                            <div style="font-weight:600;">Rapport_intermediaire_V1.pdf</div>
-                                            <div style="font-size:11.5px;color:#64748B;">En relecture par Sophie Moreau</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span class="badge badge-yellow">En révision</span>
-                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Rapport_intermediaire_V1.pdf', 'info')">↓</button>
-                                    </div>
-                                </div>
-                                <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;font-size:13.5px;">
-                                    <div style="display:flex;align-items:center;gap:12px;">
-                                        <span style="font-size:18px;">📄</span>
-                                        <div>
-                                            <div style="font-weight:600;">Journal_de_bord_mensuel.pdf</div>
-                                            <div style="font-size:11.5px;color:#64748B;">Dernière mise à jour : 14/10/2025</div>
-                                        </div>
-                                    </div>
-                                    <div style="display:flex;align-items:center;gap:10px;">
-                                        <span class="badge badge-gray">À actualiser</span>
-                                        <button class="btn btn-sm btn-outline" onclick="showToast('Téléchargement de Journal_de_bord_mensuel.pdf', 'info')">↓</button>
-                                    </div>
+                                <div id="student-documents-list">
+                                    <div class="notification-empty">Aucun document déposé.</div>
                                 </div>
                             </div>
                         </div>
@@ -278,25 +169,14 @@
 
                     <!-- Right Column: Réunions, Dossier administratif, Notifications -->
                     <div style="display:flex;flex-direction:column;gap:24px;">
-                        <!-- Réunions Card -->
+                        <!-- Encadrement et réunions -->
                         <div class="card">
                             <div class="card-header">
-                                <span class="card-title">Réunions</span>
-                                <button class="btn btn-sm btn-secondary" onclick="openModal('modal-visio')">+ Demander</button>
+                                <span class="card-title">Encadrement et réunions</span>
+                                <button class="btn btn-sm btn-secondary" id="request-supervision-button" onclick="openSupervisionModal()">Demander un encadrement</button>
                             </div>
-                            <div class="card-body">
-                                <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-bottom:14px;">
-                                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
-                                        <span class="badge badge-blue">Vendredi 18 OCT • 14h30</span>
-                                        <span class="badge badge-green">Confirmé</span>
-                                    </div>
-                                    <div style="font-weight:700;font-size:14px;color:#0F172A;margin-bottom:4px;">Point de suivi intermédiaire</div>
-                                    <div style="font-size:12.5px;color:#64748B;margin-bottom:14px;">Avec Sophie Moreau (Encadrante) et Marc V. (Tuteur NovoOps)</div>
-                                    <div style="display:flex;gap:10px;">
-                                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="openModal('modal-visio')">Rejoindre la visio</button>
-                                        <button class="btn btn-secondary btn-sm" onclick="showToast('Formulaire de report de réunion ouvert', 'info')">Modifier</button>
-                                    </div>
-                                </div>
+                            <div class="card-body" id="student-meetings-list">
+                                <div class="notification-empty">Aucun encadrant attribué.</div>
                             </div>
                         </div>
 
@@ -317,27 +197,6 @@
                             </div>
                         </div>
 
-                        <!-- Notifications Card -->
-                        <div class="card">
-                            <div class="card-header">
-                                <span class="card-title">Notifications</span>
-                                <span class="badge badge-blue">3 nouvelles</span>
-                            </div>
-                            <div class="card-body" style="padding:0;">
-                                <div style="padding:14px 20px;border-bottom:1px solid #F1F5F9;font-size:13px;">
-                                    <div style="color:#0F172A;">• Votre convention a été signée par <strong>NovoOps</strong></div>
-                                    <span style="font-size:11.5px;color:#94A3B8;">Aujourd'hui à 11:20</span>
-                                </div>
-                                <div style="padding:14px 20px;border-bottom:1px solid #F1F5F9;font-size:13px;">
-                                    <div style="color:#0F172A;">• Nouvelle remarque sur votre journal de bord</div>
-                                    <span style="font-size:11.5px;color:#94A3B8;">Hier à 16:45</span>
-                                </div>
-                                <div style="padding:14px 20px;font-size:13px;">
-                                    <div style="color:#0F172A;">• Rendez-vous mi-parcours confirmé</div>
-                                    <span style="font-size:11.5px;color:#94A3B8;">Il y a 2 jours</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </main>
@@ -345,35 +204,26 @@
         </div>
     </div>
 
-    <!-- Modal Visio -->
-    <div class="modal-overlay" id="modal-visio">
-        <div class="modal-card" style="max-width:620px;">
-            <div class="modal-header" style="background:#0F172A;color:#FFFFFF;border-color:#1E293B;">
-                <div>
-                    <h3 class="modal-title" style="color:#FFFFFF;">StageFlow Meet — Point de suivi intermédiaire</h3>
-                    <div style="font-size:12px;color:#94A3B8;">Participants : Clara Martin, Sophie Moreau, Marc Vallet</div>
-                </div>
-                <button class="modal-close" style="color:#FFFFFF;" onclick="closeModal('modal-visio')">&times;</button>
+    <!-- Modal demande d'encadrement -->
+    <div class="modal-overlay" id="modal-supervision">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">Demander un encadrement</h3>
+                <button class="modal-close" onclick="closeModal('modal-supervision')">&times;</button>
             </div>
-            <div class="modal-body" style="background:#0B132B;color:#FFFFFF;display:flex;flex-direction:column;align-items:center;padding:36px;">
-                <div style="width:100%;height:230px;background:#1E293B;border-radius:14px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:24px;border:1px solid rgba(255,255,255,0.1);">
-                    <div style="text-align:center;">
-                        <div class="avatar" style="width:68px;height:68px;font-size:26px;margin:0 auto 14px;background:#3B82F6;color:#FFF;">SM</div>
-                        <div style="font-weight:700;font-size:16px;">Sophie Moreau (Encadrante)</div>
-                        <div style="font-size:12.5px;color:#94A3B8;">En ligne • Micro activé</div>
+            <div class="modal-body">
+                <form onsubmit="submitSupervisionRequest(event)">
+                    <div class="form-group">
+                        <label class="form-label" for="supervision-tutor-select">Enseignant *</label>
+                        <select class="form-control" id="supervision-tutor-select" required>
+                            <option value="">Chargement des enseignants…</option>
+                        </select>
                     </div>
-                    <div style="position:absolute;bottom:14px;right:14px;background:#0F172A;border:1px solid #334155;border-radius:8px;padding:6px 14px;display:flex;align-items:center;gap:8px;font-size:11.5px;">
-                        <span style="width:8px;height:8px;border-radius:50%;background:#10B981;"></span>
-                        Connexion HD sécurisée
+                    <div class="modal-footer" style="padding:18px 0 0;background:none;border-top:none;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-supervision')">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Envoyer la demande</button>
                     </div>
-                </div>
-
-                <div style="display:flex;gap:12px;align-items:center;">
-                    <button class="btn btn-secondary btn-sm" onclick="showToast('Micro coupé', 'warning')">🎤 Muet</button>
-                    <button class="btn btn-secondary btn-sm" onclick="showToast('Caméra activée', 'info')">📹 Caméra</button>
-                    <button class="btn btn-secondary btn-sm" onclick="showToast('Partage d\'écran démarré', 'info')">💻 Partager l'écran</button>
-                    <button class="btn btn-danger btn-sm" onclick="closeModal('modal-visio');showToast('Réunion terminée', 'info');">Quitter</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -386,26 +236,30 @@
                 <button class="modal-close" onclick="closeModal('modal-upload')">&times;</button>
             </div>
             <div class="modal-body">
+                <form id="upload-document-form" onsubmit="submitStageDocument(event)">
                 <div class="form-group">
                     <label class="form-label">Type de document *</label>
-                    <select class="form-control" id="upload-doc-type">
+                    <select class="form-control" id="upload-doc-type" required>
+                        <option value="">Choisir un type de document</option>
                         <option>Rapport intermédiaire de stage</option>
                         <option>Journal de bord périodique</option>
                         <option>Attestation Responsabilité Civile</option>
                         <option>Fiche d'évaluation signée</option>
+                        <option>Autre document</option>
                     </select>
                 </div>
 
                 <div style="border:2px dashed #CBD5E1;border-radius:14px;padding:36px;text-align:center;background:#F8FAFC;cursor:pointer;" onclick="document.getElementById('file-input').click()">
-                    <input type="file" id="file-input" style="display:none;" onchange="handleFileSelected(this)">
+                    <input type="file" id="file-input" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none;" onchange="handleFileSelected(this)" required>
                     <div style="font-size:36px;margin-bottom:10px;">📁</div>
                     <div style="font-weight:700;font-size:14.5px;color:#0F172A;" id="upload-label">Cliquez ou glissez un fichier ici</div>
                     <div style="font-size:12.5px;color:#64748B;margin-top:6px;">Formats acceptés : PDF, DOCX (max. 10 Mo)</div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeModal('modal-upload')">Annuler</button>
-                <button class="btn btn-primary" onclick="closeModal('modal-upload');showToast('Document déposé avec succès !', 'success')">Valider le dépôt</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modal-upload')">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Valider le dépôt</button>
+                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -418,8 +272,99 @@
     <script src="js/app.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            Auth.requireAuth();
+            Auth.requireAuth('student');
+            loadStudentDashboard();
+            loadNotifications();
+            setInterval(loadNotifications, 30000);
         });
+
+        async function loadStudentDashboard() {
+            try {
+                const data = await Database.getStudentDashboard();
+                const accepted = data.applications.filter(application => application.status === 'accepted');
+                const active = accepted[0];
+                const stageTitle = document.getElementById('student-stage-title');
+                const stagePeriod = document.getElementById('student-stage-period');
+
+                if (active) {
+                    if (stageTitle) stageTitle.textContent = `Stage chez ${active.company_name}`;
+                    if (stagePeriod) stagePeriod.textContent =
+                        `Période : ${active.start_date} • ${active.duration_months} mois`;
+                    document.getElementById('student-workflow-status').textContent =
+                        'Étape 4 / 7 — Stage confirmé';
+                } else {
+                    if (stageTitle) stageTitle.textContent =
+                        data.applications.length ? 'Candidature en cours' : 'Aucun stage confirmé';
+                    if (stagePeriod) stagePeriod.textContent =
+                        data.applications.length
+                            ? `${data.applications.length} candidature(s) enregistrée(s)`
+                            : 'Postulez à une offre pour démarrer votre parcours';
+                }
+
+                const meetingsContainer = document.getElementById('student-meetings-list');
+                const requestButton = document.getElementById('request-supervision-button');
+                if (data.supervision && data.supervision.status === 'accepted') {
+                    requestButton.style.display = 'none';
+                    meetingsContainer.innerHTML = `
+                        <div style="padding:0 0 14px;border-bottom:1px solid #E2E8F0;margin-bottom:14px;">
+                            <div style="font-size:12px;color:#64748B;">Votre encadrant</div>
+                            <div style="font-weight:700;">${escapeStudentText(data.supervision.tutor_name)}</div>
+                            <div style="font-size:12px;color:#64748B;">${escapeStudentText(data.supervision.tutor_email)}</div>
+                        </div>
+                        ${data.meetings.length ? data.meetings.map(meeting => `
+                        <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:16px;margin-bottom:14px;">
+                            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+                                <span class="badge badge-blue">${escapeStudentText(meeting.meeting_date)} • ${escapeStudentText(meeting.meeting_time)}</span>
+                                <span class="badge badge-green">Confirmé</span>
+                            </div>
+                            <div style="font-weight:700;font-size:14px;color:#0F172A;margin-bottom:4px;">${escapeStudentText(meeting.title)}</div>
+                            <div style="font-size:12.5px;color:#64748B;">Avec ${escapeStudentText(meeting.tutor_name)} • ${escapeStudentText(meeting.format)}</div>
+                        </div>
+                    `).join('') : '<div style="color:#64748B;font-size:13px;">Aucune réunion planifiée pour le moment.</div>'}`;
+                } else if (data.supervision && data.supervision.status === 'pending') {
+                    requestButton.style.display = 'none';
+                    meetingsContainer.innerHTML = `<div style="font-size:13px;color:#64748B;">Demande envoyée à <strong>${escapeStudentText(data.supervision.tutor_name)}</strong>. En attente de sa réponse.</div>`;
+                } else {
+                    requestButton.style.display = '';
+                    meetingsContainer.innerHTML = data.supervision && data.supervision.status === 'rejected'
+                        ? `<div style="font-size:13px;color:#B91C1C;margin-bottom:12px;">Votre demande auprès de ${escapeStudentText(data.supervision.tutor_name)} a été refusée. Vous pouvez choisir un autre enseignant.</div>`
+                        : '<div style="color:#64748B;font-size:13px;">Aucun encadrant attribué pour le moment.</div>';
+                }
+
+                renderStudentDocuments(data.documents);
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
+        }
+
+        function renderStudentDocuments(documents) {
+            const list = document.getElementById('student-documents-list');
+            if (!documents.length) {
+                list.innerHTML = '<div class="notification-empty">Aucun document déposé.</div>';
+                return;
+            }
+            list.innerHTML = documents.map(document => `
+                <div class="document-row">
+                    <div>
+                        <div style="font-weight:600;">${escapeStudentText(document.filename)}</div>
+                        <div style="font-size:11.5px;color:#64748B;">${escapeStudentText(document.document_type)} • ${formatDocumentSize(document.size)}</div>
+                    </div>
+                    <a class="btn btn-sm btn-outline" href="/api/student/documents/${document.id}/download">Télécharger</a>
+                </div>
+            `).join('');
+        }
+
+        function formatDocumentSize(size) {
+            return size < 1024 * 1024
+                ? `${Math.max(1, Math.round(size / 1024))} Ko`
+                : `${(size / (1024 * 1024)).toFixed(1)} Mo`;
+        }
+
+        function escapeStudentText(value) {
+            return String(value || '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[character]);
+        }
 
         function switchStudentTab(btn) {
             btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -428,7 +373,64 @@
         }
 
         function openUploadModal() {
+            document.getElementById('upload-document-form').reset();
+            document.getElementById('upload-label').textContent = 'Cliquez ou glissez un fichier ici';
             openModal('modal-upload');
+        }
+
+        async function openSupervisionModal() {
+            const select = document.getElementById('supervision-tutor-select');
+            select.innerHTML = '<option value="">Chargement des enseignants…</option>';
+            openModal('modal-supervision');
+            try {
+                const { tutors } = await Database.getTutors();
+                select.innerHTML = tutors.length
+                    ? '<option value="">Choisir un enseignant</option>' + tutors.map(tutor =>
+                        `<option value="${tutor.id}">${escapeStudentText(tutor.name)} — ${escapeStudentText(tutor.email)}</option>`
+                    ).join('')
+                    : '<option value="">Aucun enseignant disponible</option>';
+            } catch (error) {
+                closeModal('modal-supervision');
+                showToast(error.message, 'danger');
+            }
+        }
+
+        async function submitSupervisionRequest(event) {
+            event.preventDefault();
+            const tutorId = Number(document.getElementById('supervision-tutor-select').value);
+            if (!tutorId) {
+                showToast('Choisissez un enseignant dans la liste.', 'warning');
+                return;
+            }
+            try {
+                await Database.requestSupervision(tutorId);
+                closeModal('modal-supervision');
+                showToast('Votre demande a été envoyée à l’enseignant.', 'success');
+                await loadStudentDashboard();
+                await loadNotifications();
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
+        }
+
+        async function submitStageDocument(event) {
+            event.preventDefault();
+            const file = document.getElementById('file-input').files[0];
+            if (!file) {
+                showToast('Sélectionnez un document à déposer.', 'warning');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('documentType', document.getElementById('upload-doc-type').value);
+            formData.append('file', file);
+            try {
+                await Database.uploadStageDocument(formData);
+                closeModal('modal-upload');
+                showToast('Document déposé avec succès.', 'success');
+                await loadStudentDashboard();
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
         }
 
         function handleFileSelected(input) {

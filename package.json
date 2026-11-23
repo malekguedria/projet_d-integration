@@ -1,11 +1,17 @@
 {
   "name": "stageflow-integration",
   "version": "1.0.0",
-  "description": "Plateforme institutionnelle intégrée de gestion des stages - StageFlow",
+  "description": "Plateforme de gestion des stages StageFlow avec stockage SQLite",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "test": "node --test",
+    "create-user": "node scripts/create-user.js",
+    "create-invite": "node scripts/create-invite.js"
+  },
+  "engines": {
+    "node": ">=22.13.0"
   },
   "keywords": [
     "stageflow",

@@ -28,12 +28,12 @@
                 <a href="company-offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     <span>Offres de stage</span>
-                    <span class="nav-badge">5</span>
+                    <span class="nav-badge" id="company-offers-badge">0</span>
                 </a>
                 <a href="company-offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     <span>Candidatures</span>
-                    <span class="nav-badge">42</span>
+                    <span class="nav-badge" id="company-applications-badge">0</span>
                 </a>
                 <a href="company-offers.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
@@ -63,29 +63,6 @@
         <!-- Main Wrapper -->
         <div class="main-wrapper">
 
-            <!-- App Header -->
-            <header class="app-header">
-                <div class="header-search">
-                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
-                    <span class="shortcut">⌘K</span>
-                </div>
-
-                <div class="header-actions">
-                    <button class="btn btn-sm btn-outline" onclick="triggerExport('candidatures')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter
-                    </button>
-                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span class="notification-dot" id="unread-dot"></span>
-                    </button>
-                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    </button>
-                </div>
-            </header>
-
             <!-- Main Content: Company Offers & Applications -->
             <main class="view-content">
                 <div class="page-header">
@@ -102,32 +79,32 @@
                 <!-- KPI Cards -->
                 <div class="kpi-grid">
                     <div class="kpi-card">
-                        <div class="kpi-label">Offres actives <span class="kpi-pill up">+2 ce mois</span></div>
-                        <div class="kpi-value" id="company-active-offers-count">5</div>
-                        <div class="kpi-sub">5 publiées sur la plateforme</div>
+                        <div class="kpi-label">Offres publiées</div>
+                        <div class="kpi-value" id="company-active-offers-count">0</div>
+                        <div class="kpi-sub" id="company-active-offers-sub">0 publiées par votre entreprise</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-label">Candidatures reçues <span class="kpi-pill up">+8 nouvelles</span></div>
-                        <div class="kpi-value">42</div>
-                        <div class="kpi-sub">12 à traiter aujourd'hui</div>
+                        <div class="kpi-label">Candidatures reçues</div>
+                        <div class="kpi-value" id="company-applications-count">0</div>
+                        <div class="kpi-sub" id="company-pending-count">0 en attente</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Entretiens à venir</div>
-                        <div class="kpi-value">7</div>
-                        <div class="kpi-sub">cette semaine</div>
+                        <div class="kpi-value">0</div>
+                        <div class="kpi-sub">Aucun entretien planifié</div>
                     </div>
                     <div class="kpi-card">
                         <div class="kpi-label">Stagiaires en cours</div>
-                        <div class="kpi-value">8 <span style="font-size:15px;color:#64748B;font-weight:500;">/ 10</span></div>
-                        <div class="kpi-sub">8 conventions actives</div>
+                        <div class="kpi-value">0</div>
+                        <div class="kpi-sub">Aucun stage actif</div>
                     </div>
                 </div>
 
                 <!-- Tabs -->
                 <div class="tabs-header">
-                    <button class="tab-btn active" onclick="switchCompanyTab(this)">Offres publiées (5)</button>
-                    <button class="tab-btn" onclick="switchCompanyTab(this)">Brouillons (2)</button>
-                    <button class="tab-btn" onclick="switchCompanyTab(this)">Candidatures reçues (42)</button>
+                    <button class="tab-btn active" id="company-offers-tab" onclick="switchCompanyTab(this)">Offres publiées (0)</button>
+                    <button class="tab-btn" onclick="switchCompanyTab(this)">Brouillons (0)</button>
+                    <button class="tab-btn" id="company-applications-tab" onclick="switchCompanyTab(this)">Candidatures reçues (0)</button>
                     <button class="tab-btn" onclick="switchCompanyTab(this)">Profil entreprise</button>
                 </div>
 
@@ -135,10 +112,10 @@
                     <!-- Left: Active Offers List -->
                     <div class="card">
                         <div class="card-header">
-                            <span class="card-title">5 offres actives</span>
-                            <span style="font-size:12.5px;color:#64748B;">124 vues et 42 postulants au total</span>
+                            <span class="card-title" id="company-offers-title">0 offre active</span>
+                            <span style="font-size:12.5px;color:#64748B;" id="company-offers-summary">Aucune candidature reçue</span>
                         </div>
-                        <div class="card-body" style="padding:0;">
+                        <div class="card-body" id="company-offers-list" style="padding:0;" hidden>
                             <div style="padding:16px 24px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;">
                                 <div>
                                     <div style="font-weight:700;font-size:14.5px;color:#0F172A;">Data analyst — Mobilité</div>
@@ -186,12 +163,12 @@
                     <div class="card">
                         <div class="card-header">
                             <div>
-                                <span class="card-title">Profils à décider</span>
-                                <div style="font-size:12px;color:#64748B;">Candidatures présélectionnées par votre équipe</div>
+                                <span class="card-title">Candidatures à traiter</span>
+                                <div style="font-size:12px;color:#64748B;">Candidatures reçues pour vos offres</div>
                             </div>
-                            <span class="badge badge-blue">3 en attente</span>
+                            <span class="badge badge-blue" id="company-pending-badge">0 en attente</span>
                         </div>
-                        <div class="card-body" style="display:flex;flex-direction:column;gap:16px;">
+                        <div class="card-body" id="company-applications-list" style="display:flex;flex-direction:column;gap:16px;" hidden>
                             <!-- Candidate 1 -->
                             <div class="card" id="candidate-card-1" style="border:1px solid #E2E8F0;padding:16px;">
                                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
@@ -293,7 +270,7 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="form-label" for="new-offer-start">Date de début *</label>
-                            <input type="date" id="new-offer-start" class="form-control" value="2025-02-15" required>
+                            <input type="date" id="new-offer-start" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="new-offer-duration">Durée (mois) *</label>
@@ -304,7 +281,7 @@
                     <div class="grid-2">
                         <div class="form-group">
                             <label class="form-label" for="new-offer-salary">Gratification mensuelle (€) *</label>
-                            <input type="text" id="new-offer-salary" class="form-control" value="1 250 €" required>
+                            <input type="text" id="new-offer-salary" class="form-control" placeholder="1 250" inputmode="numeric" required>
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="new-offer-mode">Mode de travail</label>
@@ -328,7 +305,6 @@
 
                     <div class="modal-footer" style="padding:18px 0 0 0;background:none;border-top:none;">
                         <button type="button" class="btn btn-secondary" onclick="closeModal('modal-create-offer')">Annuler</button>
-                        <button type="button" class="btn btn-outline" onclick="closeModal('modal-create-offer');showToast('Brouillon sauvegardé', 'info')">Enregistrer en brouillon</button>
                         <button type="submit" class="btn btn-primary">Enregistrer et publier</button>
                     </div>
                 </form>
@@ -343,9 +319,120 @@
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            Auth.requireAuth();
+        let companyOffers = [];
+        let companyApplications = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.requireAuth('company');
+            if (!user) return;
+            document.getElementById('company-applications-list').addEventListener('click', handleApplicationDecision);
+            await loadCompanyData();
         });
+
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[character]);
+        }
+
+        document.getElementById('company-offers-list').innerHTML = '<div style="padding:20px;color:#64748B;">Chargement des offres…</div>';
+        document.getElementById('company-applications-list').innerHTML = '<div style="padding:20px;color:#64748B;">Chargement des candidatures…</div>';
+        document.getElementById('company-offers-list').hidden = false;
+        document.getElementById('company-applications-list').hidden = false;
+
+        async function loadCompanyData() {
+            try {
+                const [offerResult, applicationResult] = await Promise.all([
+                    Database.getOffers(),
+                    Database.getApplications()
+                ]);
+                companyOffers = offerResult.offers;
+                companyApplications = applicationResult.applications;
+                renderCompanyData();
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
+        }
+
+        function renderCompanyData() {
+            const totalOffers = companyOffers.length;
+            const totalApplications = companyApplications.length;
+            const pending = companyApplications.filter(application => application.status === 'pending').length;
+            document.getElementById('company-active-offers-count').textContent = totalOffers;
+            document.getElementById('company-active-offers-sub').textContent = `${totalOffers} publiée${totalOffers > 1 ? 's' : ''} par votre entreprise`;
+            document.getElementById('company-applications-count').textContent = totalApplications;
+            document.getElementById('company-pending-count').textContent = `${pending} en attente`;
+            document.getElementById('company-offers-badge').textContent = totalOffers;
+            document.getElementById('company-applications-badge').textContent = totalApplications;
+            document.getElementById('company-offers-tab').textContent = `Offres publiées (${totalOffers})`;
+            document.getElementById('company-applications-tab').textContent = `Candidatures reçues (${totalApplications})`;
+            document.getElementById('company-offers-title').textContent = `${totalOffers} offre${totalOffers > 1 ? 's' : ''} active${totalOffers > 1 ? 's' : ''}`;
+            document.getElementById('company-offers-summary').textContent = `${totalApplications} candidature${totalApplications > 1 ? 's' : ''} reçue${totalApplications > 1 ? 's' : ''}`;
+            document.getElementById('company-pending-badge').textContent = `${pending} en attente`;
+            renderCompanyOffers();
+            renderCompanyApplications();
+        }
+
+        function renderCompanyOffers() {
+            const container = document.getElementById('company-offers-list');
+            if (!companyOffers.length) {
+                container.innerHTML = '<div style="padding:20px;color:#64748B;">Vous n’avez pas encore publié d’offre.</div>';
+                return;
+            }
+            container.innerHTML = companyOffers.map(offer => `
+                <div style="padding:16px 24px;border-bottom:1px solid #E2E8F0;display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                        <div style="font-weight:700;font-size:14.5px;color:#0F172A;">${escapeHTML(offer.title)}</div>
+                        <div style="font-size:12.5px;color:#64748B;">${escapeHTML(offer.city)} • ${offer.duration_months} mois • ${new Date(offer.created_at).toLocaleDateString('fr-FR')}</div>
+                    </div>
+                    <span class="badge badge-green">${companyApplications.filter(application => application.offer_id === offer.id).length} candidature(s)</span>
+                </div>`).join('');
+        }
+
+        function renderCompanyApplications() {
+            const container = document.getElementById('company-applications-list');
+            if (!companyApplications.length) {
+                container.innerHTML = '<div style="padding:20px;color:#64748B;">Aucune candidature reçue.</div>';
+                return;
+            }
+            container.innerHTML = companyApplications.map(application => {
+                const status = {
+                    pending: ['En attente', 'badge-blue'],
+                    accepted: ['Acceptée', 'badge-green'],
+                    rejected: ['Refusée', 'badge-red']
+                }[application.status];
+                return `
+                    <div class="card" style="border:1px solid #E2E8F0;padding:16px;">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                            <div>
+                                <div style="font-weight:700;font-size:14px;">${escapeHTML(application.student_name)}</div>
+                                <div style="font-size:12px;color:#64748B;">${escapeHTML(application.student_email)}</div>
+                            </div>
+                            <span class="badge ${status[1]}">${status[0]}</span>
+                        </div>
+                        <div style="font-size:12.5px;color:#475569;margin-bottom:8px;">Offre : <strong>${escapeHTML(application.title)}</strong></div>
+                        ${application.cover_letter ? `<p style="font-size:12.5px;color:#475569;margin-bottom:12px;">${escapeHTML(application.cover_letter)}</p>` : ''}
+                        ${application.status === 'pending' ? `<div style="display:flex;gap:8px;">
+                            <button class="btn btn-primary btn-sm" data-decision="accepted" data-id="${application.id}">Accepter</button>
+                            <button class="btn btn-outline btn-sm" data-decision="rejected" data-id="${application.id}">Refuser</button>
+                        </div>` : ''}
+                    </div>`;
+            }).join('');
+        }
+
+        async function handleApplicationDecision(event) {
+            const button = event.target.closest('button[data-decision]');
+            if (!button) return;
+            button.disabled = true;
+            try {
+                await Database.decideApplication(Number(button.dataset.id), button.dataset.decision);
+                await loadCompanyData();
+                showToast('Décision enregistrée.', 'success');
+            } catch (error) {
+                button.disabled = false;
+                showToast(error.message, 'danger');
+            }
+        }
 
         function switchCompanyTab(btn) {
             btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -357,33 +444,27 @@
             openModal('modal-create-offer');
         }
 
-        function handleCreateOfferSubmit(e) {
+        async function handleCreateOfferSubmit(e) {
             e.preventDefault();
             const title = document.getElementById('new-offer-title').value;
-            closeModal('modal-create-offer');
-            showToast(`L'offre "${title}" a été publiée avec succès !`, 'success');
-
-            const countEl = document.getElementById('company-active-offers-count');
-            if (countEl) countEl.textContent = parseInt(countEl.textContent) + 1;
-        }
-
-        function handleCandidateDecision(cardId, candidateName, action) {
-            const card = document.getElementById(cardId);
-            if (!card) return;
-
-            if (action === 'accept') {
-                card.style.border = '1px solid #A7F3D0';
-                card.style.background = '#ECFDF5';
-                const btn = card.querySelector('.btn-primary');
-                if (btn) {
-                    btn.textContent = '✓ Accepté';
-                    btn.disabled = true;
-                    btn.classList.replace('btn-primary', 'btn-success');
-                }
-                showToast(`Candidature de ${candidateName} acceptée !`, 'success');
-            } else {
-                card.style.opacity = '0.5';
-                showToast(`Candidature de ${candidateName} refusée.`, 'warning');
+            try {
+                await Database.createOffer({
+                    title,
+                    domain: document.getElementById('new-offer-dept').value,
+                    city: document.getElementById('new-offer-city').value,
+                    startDate: document.getElementById('new-offer-start').value,
+                    durationMonths: Number(document.getElementById('new-offer-duration').value),
+                    salaryEur: Number(document.getElementById('new-offer-salary').value.replace(/[^\d]/g, '')),
+                    workMode: document.getElementById('new-offer-mode').value,
+                    skills: document.getElementById('new-offer-skills').value.split(',').map(skill => skill.trim()).filter(Boolean),
+                    description: document.getElementById('new-offer-desc').value
+                });
+                document.getElementById('form-create-offer').reset();
+                closeModal('modal-create-offer');
+                await loadCompanyData();
+                showToast(`L’offre "${title}" a été publiée.`, 'success');
+            } catch (error) {
+                showToast(error.message, 'danger');
             }
         }
     </script>
