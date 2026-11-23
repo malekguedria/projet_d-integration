@@ -28,7 +28,7 @@
                 <a href="student-offers.html" class="nav-item active">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     <span>Offres de stage</span>
-                    <span class="nav-badge">28</span>
+                    <span class="nav-badge" id="student-offers-count">0</span>
                 </a>
                 <a href="student-dashboard.html" class="nav-item">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 5H7a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-9a2 2 0 00-2-2h-2M9 5a2 2 0 002 2 2 2 0 002-2M9 5a2 2 0 012-2 2 2 0 012 2"/></svg>
@@ -67,50 +67,12 @@
         <!-- Main Wrapper -->
         <div class="main-wrapper">
 
-            <!-- App Header -->
-            <header class="app-header">
-                <div class="header-search">
-                    <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" id="global-search-input" placeholder="Rechercher dans StageFlow..." oninput="handleGlobalSearch(this.value)">
-                    <span class="shortcut">⌘K</span>
-                </div>
-
-                <div class="header-actions">
-                    <button class="btn btn-sm btn-outline" onclick="triggerExport('offres')">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        Exporter
-                    </button>
-                    <button class="action-icon-btn" onclick="toggleNotifications()" title="Notifications">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span class="notification-dot" id="unread-dot"></span>
-                    </button>
-                    <button class="action-icon-btn" onclick="openHelpModal()" title="Aide">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                    </button>
-                </div>
-
-                <!-- Notifications Dropdown -->
-                <div class="notification-dropdown" id="notification-panel">
-                    <div style="padding:16px 20px;border-bottom:1px solid #E2E8F0;display:flex;justify-content:space-between;align-items:center;">
-                        <span style="font-weight:700;font-size:13.5px;">Notifications</span>
-                        <a href="javascript:void(0)" onclick="clearAllNotifications()" style="font-size:11.5px;color:#2563EB;text-decoration:none;font-weight:600;">Tout marquer comme lu</a>
-                    </div>
-                    <div id="notifications-list" style="max-height:280px;overflow-y:auto;">
-                        <div style="padding:14px 20px;border-bottom:1px solid #F1F5F9;font-size:13px;">
-                            <div style="font-weight:600;color:#0F172A;">Convention validée</div>
-                            <div style="color:#64748B;font-size:12px;margin-top:2px;">Votre convention chez NovoOps a été validée par le secrétariat.</div>
-                            <span style="font-size:10.5px;color:#94A3B8;">Il y a 10 min</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
-
             <!-- Main Content: Student Offers -->
             <main class="view-content">
                 <div class="page-header">
                     <div>
                         <h1 class="page-title">Offres de stage</h1>
-                        <p class="page-subtitle">28 opportunités correspondant à votre profil et votre formation</p>
+                        <p class="page-subtitle" id="student-offers-subtitle">Offres publiées par les entreprises</p>
                     </div>
                     <div style="display:flex;gap:12px;">
                         <button class="btn btn-secondary" onclick="openCVModal()">
@@ -162,7 +124,7 @@
                 </div>
 
                 <!-- Offers Grid -->
-                <div class="grid-3" id="offers-container">
+                <div class="grid-3" id="offers-container" hidden>
                     <!-- Offer 1 -->
                     <div class="offer-card" data-domain="data" data-location="lyon" data-title="data analyst mobilite urbaine novoops">
                         <div class="offer-card-top">
@@ -330,17 +292,17 @@
             </div>
             <div class="modal-body">
                 <div style="display:flex;gap:12px;align-items:center;margin-bottom:18px;">
-                    <span class="badge badge-green" style="font-size:13px;padding:5px 12px;">★ 95% de compatibilité avec votre profil</span>
-                    <span class="badge badge-blue">Gratification : 1 200 € / mois</span>
+                    <span class="badge badge-green" style="font-size:13px;padding:5px 12px;">Offre de stage</span>
+                    <span class="badge badge-blue" id="modal-offer-salary"></span>
                 </div>
 
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">Contexte et mission</h4>
-                <p style="font-size:13.5px;color:#475569;line-height:1.6;margin-bottom:18px;">
+                <p id="modal-offer-description" style="font-size:13.5px;color:#475569;line-height:1.6;margin-bottom:18px;">
                     Au sein de notre pôle Analytics, vous analyserez les flux de transport urbain en temps réel afin d'optimiser les fréquences de passage des lignes de bus et tramways. Vous construirez des tableaux de bord interactifs pour les collectivités partenaires.
                 </p>
 
                 <h4 style="font-size:14px;font-weight:700;margin-bottom:8px;">Technologies & Outils</h4>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+                <div id="modal-offer-skills" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
                     <span class="tag-pill">Python</span>
                     <span class="tag-pill">Pandas</span>
                     <span class="tag-pill">Power BI</span>
@@ -392,11 +354,89 @@
     <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
     <script>
-        let candidaturesCount = 3;
+        let offers = [];
+        let selectedOffer = null;
+
+        document.getElementById('offers-container').innerHTML = '<div class="card" style="padding:24px;color:#64748B;">Chargement des offres…</div>';
+        document.getElementById('offers-container').hidden = false;
 
         document.addEventListener('DOMContentLoaded', () => {
-            Auth.requireAuth();
+            Auth.requireAuth('student');
+            document.getElementById('offers-container').addEventListener('click', handleOfferAction);
+            loadOffers();
         });
+
+        function escapeHTML(value) {
+            return String(value || '').replace(/[&<>"']/g, character => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[character]);
+        }
+
+        async function loadOffers() {
+            try {
+                const [offerResult, applicationResult] = await Promise.all([
+                    Database.getOffers(),
+                    Database.getApplications()
+                ]);
+                offers = offerResult.offers;
+                renderOffers();
+                setApplicationCount(applicationResult.applications.length);
+            } catch (error) {
+                document.getElementById('offers-container').textContent = error.message;
+                showToast(error.message, 'danger');
+            }
+        }
+
+        function setApplicationCount(count) {
+            document.getElementById('user-candidatures-count').textContent = count;
+            document.getElementById('sidebar-candidatures-badge').textContent = count;
+        }
+
+        function renderOffers() {
+            const container = document.getElementById('offers-container');
+            document.getElementById('student-offers-count').textContent = offers.length;
+            document.getElementById('student-offers-subtitle').textContent =
+                `${offers.length} offre${offers.length === 1 ? '' : 's'} publiée${offers.length === 1 ? '' : 's'} par les entreprises`;
+            container.hidden = false;
+            if (offers.length === 0) {
+                container.innerHTML = '<div class="card" style="padding:24px;color:#64748B;">Aucune offre publiée pour le moment.</div>';
+                return;
+            }
+            container.innerHTML = offers.map(offer => {
+                const titleSearch = `${offer.title} ${offer.company_name} ${offer.domain} ${offer.city}`.toLowerCase();
+                return `
+                    <div class="offer-card" data-domain="${escapeHTML(offer.domain.toLowerCase())}" data-location="${escapeHTML(offer.city.toLowerCase())}" data-title="${escapeHTML(titleSearch)}">
+                        <div class="offer-card-top">
+                            <div class="company-logo">${escapeHTML(offer.company_name.slice(0, 2).toUpperCase())}</div>
+                            <div style="flex:1;">
+                                <div class="offer-company">${escapeHTML(offer.company_name)}</div>
+                                <div class="offer-title">${escapeHTML(offer.title)}</div>
+                            </div>
+                            <button class="btn-fav" data-action="favorite" title="Favori">♥</button>
+                        </div>
+                        <div class="offer-tags">${offer.skills.map(skill => `<span class="tag-pill">${escapeHTML(skill)}</span>`).join('')}</div>
+                        <div class="offer-meta">
+                            <span>⏱ ${offer.duration_months} mois • ${escapeHTML(offer.city)} (${escapeHTML(offer.work_mode)})</span>
+                            <span class="match-score">${offer.salary_eur.toLocaleString('fr-FR')} € / mois</span>
+                        </div>
+                        <div class="offer-actions">
+                            <button class="btn btn-secondary btn-sm" style="flex:1;" data-action="detail" data-id="${offer.id}">Consulter</button>
+                            <button class="btn btn-primary btn-sm" style="flex:1;" data-action="apply" data-id="${offer.id}">Postuler</button>
+                        </div>
+                    </div>`;
+            }).join('');
+            filterOffers();
+        }
+
+        function handleOfferAction(event) {
+            const button = event.target.closest('button[data-action]');
+            if (!button) return;
+            if (button.dataset.action === 'favorite') return toggleFavorite(button);
+            const offer = offers.find(item => item.id === Number(button.dataset.id));
+            if (!offer) return;
+            if (button.dataset.action === 'detail') openOfferDetailModal(offer.id);
+            if (button.dataset.action === 'apply') applyToOffer(offer.id);
+        }
 
         function filterOffers() {
             const query = (document.getElementById('offer-filter-search').value || '').toLowerCase();
@@ -439,23 +479,38 @@
             showToast(btn.classList.contains('active') ? 'Ajouté aux favoris' : 'Retiré des favoris', 'info');
         }
 
-        function openOfferDetailModal(companyKey) {
+        function openOfferDetailModal(offerId) {
+            selectedOffer = offers.find(offer => offer.id === Number(offerId));
+            if (!selectedOffer) return;
+            document.getElementById('modal-offer-title').textContent = selectedOffer.title;
+            document.getElementById('modal-offer-company').textContent =
+                `${selectedOffer.company_name} • ${selectedOffer.city} • ${selectedOffer.duration_months} mois`;
+            document.getElementById('modal-offer-salary').textContent =
+                `Gratification : ${selectedOffer.salary_eur.toLocaleString('fr-FR')} € / mois`;
+            document.getElementById('modal-offer-description').textContent = selectedOffer.description;
+            document.getElementById('modal-offer-skills').innerHTML = selectedOffer.skills
+                .map(skill => `<span class="tag-pill">${escapeHTML(skill)}</span>`).join('');
             openModal('modal-offer-detail');
         }
 
-        function submitApplicationFromModal() {
-            closeModal('modal-offer-detail');
-            candidaturesCount++;
-            document.getElementById('user-candidatures-count').textContent = candidaturesCount;
-            document.getElementById('sidebar-candidatures-badge').textContent = candidaturesCount;
-            showToast('Candidature envoyée avec succès à l\'entreprise !', 'success');
+        async function submitApplicationFromModal() {
+            if (!selectedOffer) return;
+            await applyToOffer(selectedOffer.id, document.getElementById('apply-cover-note').value);
         }
 
-        function applyToOffer(title) {
-            candidaturesCount++;
-            document.getElementById('user-candidatures-count').textContent = candidaturesCount;
-            document.getElementById('sidebar-candidatures-badge').textContent = candidaturesCount;
-            showToast(`Candidature envoyée pour : ${title}`, 'success');
+        async function applyToOffer(offerId, coverLetter = '') {
+            const offer = offers.find(item => item.id === Number(offerId));
+            if (!offer) return;
+            try {
+                await Database.applyToOffer(offer.id, coverLetter);
+                const result = await Database.getApplications();
+                setApplicationCount(result.applications.length);
+                document.getElementById('apply-cover-note').value = '';
+                closeModal('modal-offer-detail');
+                showToast(`Candidature envoyée pour : ${offer.title}`, 'success');
+            } catch (error) {
+                showToast(error.message, 'danger');
+            }
         }
 
         function openCVModal() {
